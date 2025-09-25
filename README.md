@@ -14,3 +14,14 @@ Why have I chosen to do this specific project? I have always been a car enthusia
 - View a complete build summary with part details and total cost  
 - Keep an organized record of your modification journey 
  
+ ## User Stories:
+
+- As a user, I want to add multiple parts to my build (each with its specifications) so that I can plan my car modifications
+
+- As a user, I want to view the list of parts in my build so that I can review what I’ve added.
+
+- As a user, I want to remove or replace a part in my build so that I can update my configuration easily
+
+- As a user, I want to run a fitment check on my build so that I know if my wheels, tires, and suspension are compatible
+
+- As a user, I want to see a summary of my build (including the total cost and any warnings) so that I can evaluate the overall plan
