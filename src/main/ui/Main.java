@@ -1,7 +1,9 @@
 package ui;
 
+import model.Build;
+
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("Welcome to my project!");
+        Build build = new Build();
     }
 }

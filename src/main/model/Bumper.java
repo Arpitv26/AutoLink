@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Represents a bumper component (front or rear).
+ * Represents a bumper part that can be either front or back
  * Immutable once constructed.
  */
 
@@ -11,7 +11,7 @@ public class Bumper extends Part {
     private final String brand;     
     private final String style;     
 
-    // REQUIRES: name/type/material/brand/style non-null && non-empty; cost >= 0
+    // REQUIRES: name,type,material,brand,style non-null and non-empty; cost >= 0
     // MODIFIES: this
     // EFFECTS:  constructs a bumper with given specs
     public Bumper(String name, int cost, String type, String material, String brand, String style) {
