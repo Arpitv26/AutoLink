@@ -4,19 +4,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
-/**
- * Represents the user's single active build.
- * Holds an inventory of parts, active selections, and fitment baseline.
- * This class is mutable.
- */
-
+// Represents the user's single active build.
+// Holds an inventory of parts, active selections, and fitment defaults and baseline
+// This class is mutable
 
 public class Build {
-    //inventory and lists
+    //inventory of all parts and lists
     private final List<Part> inventory;
     private final Set<String> nameIndex;
 
-    //active parts on the build
+    //active subParts we can have
     private Wheel activeWheel;
     private Tire activeTire;
     private Suspension activeSuspension;
@@ -29,8 +26,6 @@ public class Build {
     private Spoiler activeSpoiler;
     private Lights activeLights;    
 
-
-    //default values either user-set or not
     private Double referenceOdMm;              // user-set default for rolling diameter
     private final double rollingDeltaThresholdPct; // in this case will be setting it to a default of 3% for the program
 
@@ -62,20 +57,19 @@ public class Build {
     // MODIFIES: this
     // EFFECTS:  if a part with name newName exists and matches the given category,
     //           removes the currently active part of that category,
-    //           sets the new part active, and returns true;
+    //           sets the new part active, and returns true.
     //           returns false if the newName part does not exist or is of a different category
     public boolean replaceActivePart(String category, String newName) {
         return false; // stub
     }
 
-    // EFFECTS:  returns a defensive copy of all parts in inventory
+    // EFFECTS:  returns a copy of all parts in inventory
     public List<Part> listAllParts() {
         return null; // stub
     }
 
     //                                                  Active selections
     // -----------------------------------------------------------------------------------------------------------------
-
 
     // REQUIRES: name != null && non-empty
     // MODIFIES: this
@@ -105,7 +99,7 @@ public class Build {
         return false; // stub
     }
 
-        // REQUIRES: name != null && non-empty
+    // REQUIRES: name != null && non-empty
     // MODIFIES: this
     // EFFECTS:  if an Engine with the given name exists, sets it active and returns true; otherwise returns false
     public boolean setActiveEngine(String name) {
@@ -156,8 +150,6 @@ public class Build {
         return false; // stub
     }
 
-
-
     //                                                Baseline + fitment
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -190,7 +182,6 @@ public class Build {
     public Map<String, Integer> countsByCategory() {
         return null; // stub
     }
-
 
     //                                              Helper Methods
     // -----------------------------------------------------------------------------------------------------------------

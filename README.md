@@ -22,6 +22,6 @@ Why have I chosen to do this specific project? I have always been a car enthusia
 
 - As a user, I want to remove or replace a part in my build so that I can update my configuration easily
 
-- As a user, I want to run a fitment check on my build so that I know if my wheels, tires, and suspension are compatible
+- As a user, I want to run a fitment check on my build so that I know if my wheels and tire specs are compatible
 
 - As a user, I want to see a summary of my build (including the total cost and any warnings) so that I can evaluate the overall plan
