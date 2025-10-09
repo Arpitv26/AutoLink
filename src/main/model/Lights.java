@@ -35,7 +35,7 @@ public class Lights extends Part {
 
     // EFFECTS: returns manufacturer brand
     public String getBrand() {
-        return brand;  
+        return brand;
     } 
 
     // EFFECTS: returns light type (e.g., LED, HID)

@@ -16,21 +16,32 @@ public class Engine extends Part {
     // EFFECTS:  constructs an engine with the given specs
     public Engine(String name, int cost, String type, int horsepower, double displacement) {
         super(name, cost);
-        // stub
+        validateString(type, "type");
+
+        if (horsepower <= 0) {
+            throw new IllegalArgumentException("horsepower has to be more than 0!");
+        }
+        if (displacement <= 0) {
+            throw new IllegalArgumentException("displacement has to be more than 0!");
+        }
+
+        this.type = type;
+        this.horsepower = horsepower;
+        this.displacement = displacement;
     }
 
     // EFFECTS: returns the engine type
     public String getType() {
-        return null;  // stub
+        return type; 
     }
 
     // EFFECTS: returns engine horsepower
     public int getHorsepower() {
-        return 0;  // stub
+        return horsepower;  
     }
 
     // EFFECTS: returns engine displacement in litres
     public double getDisplacement() {
-        return 0.0;  // stub
+        return displacement; 
     }
 }
