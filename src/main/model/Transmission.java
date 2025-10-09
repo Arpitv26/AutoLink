@@ -16,21 +16,29 @@ public class Transmission extends Part {
     // EFFECTS:  constructs a transmission with given specs
     public Transmission(String name, int cost, String type, int gears, String drive) {
         super(name, cost);
-        // stub
+        validateString(type, "type");
+        validateString(drive, "drive");
+        if (gears <= 0) {
+            throw new IllegalArgumentException("Gears has to be more than 0!");
+        }
+
+        this.type = type;
+        this.gears = gears;
+        this.drive = drive;
     }
 
     // EFFECTS: returns transmission type
     public String getType() {
-        return null;  // stub
+        return type;
     }
 
     // EFFECTS: returns number of gears
     public int getGears() {
-        return 0;  // stub
+        return gears;
     }
 
     // EFFECTS: returns drive layout (RWD, FWD, AWD)
     public String getDrive() {
-        return null;  // stub
+        return drive;
     }
 }
