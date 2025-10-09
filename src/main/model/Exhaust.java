@@ -13,9 +13,7 @@ public class Exhaust extends Part {
     // EFFECTS:  constructs an exhaust with the given spec
     public Exhaust(String name, int cost, String spec) {
         super(name, cost);
-        if (spec == null || spec.trim().isEmpty()) {
-            throw new IllegalArgumentException("spec can not be null or empty!");
-        }
+        validateString(spec, "spec");
         this.spec = spec;
     }
 

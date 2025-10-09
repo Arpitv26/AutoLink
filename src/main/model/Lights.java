@@ -16,26 +16,35 @@ public class Lights extends Part {
     // EFFECTS:  constructs a lighting component with given specs
     public Lights(String name, int cost, String type, String brand, String lightType, String detail) {
         super(name, cost);
-        // stub
+        validateString(type, "type");
+        validateString(brand, "brand");
+        validateString(lightType, "lightType");
+        validateString(detail, "detail");
+
+        this.type = type;
+        this.brand = brand;
+        this.lightType = lightType;
+        this.detail = detail;
+        
     }
 
     // EFFECTS: returns lighting component type ("headlights" or "taillights")
     public String getType() {
-        return null;  // stub
+        return type;  
     }
 
     // EFFECTS: returns manufacturer brand
     public String getBrand() {
-        return null;  // stub
+        return brand;  
     } 
 
     // EFFECTS: returns light type (e.g., LED, HID)
     public String getLightType() {
-        return null;   // stub
+        return lightType;  
     }
 
     // EFFECTS: returns extra detail (colour temp or tint)
     public String getDetail() {
-        return null;   // stub
+        return detail;  
     }
 }

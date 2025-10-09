@@ -37,4 +37,13 @@ public abstract class Part {
     public int getCost() {
         return cost;
     }
+
+
+    //helper method for exception handling and validation for each subPart constructor
+    protected static void validateString(String value, String fieldName) {
+    if (value == null || value.trim().isEmpty()) {
+        throw new IllegalArgumentException(fieldName + " cannot be null or empty!");
+        }
+    }
+
 }
