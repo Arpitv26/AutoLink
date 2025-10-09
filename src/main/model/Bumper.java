@@ -16,26 +16,34 @@ public class Bumper extends Part {
     // EFFECTS:  constructs a bumper with given specs
     public Bumper(String name, int cost, String type, String material, String brand, String style) {
         super(name, cost);
-        // stub
+        validateString(type, "type");
+        validateString(material, "material");
+        validateString(brand, "brand");
+        validateString(style, "style");
+
+        this.type = type;
+        this.material = material;
+        this.brand = brand;
+        this.style = style;
     }
 
     // EFFECTS: returns bumper type ("front" or "rear")
     public String getType() {
-        return null;  // stub
+        return type; 
     } 
 
     // EFFECTS: returns material
     public String getMaterial() {
-        return null;  // stub
+        return material;
     }
 
     // EFFECTS: returns brand
     public String getBrand() {
-        return null;  // stub
+        return brand;
     }
 
     // EFFECTS: returns style
     public String getStyle() {
-        return null;  // stub
+        return style;
     }
 }
