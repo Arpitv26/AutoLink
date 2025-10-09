@@ -14,21 +14,29 @@ public class Spoiler extends Part {
     // EFFECTS:  constructs a spoiler with given specs
     public Spoiler(String name, int cost, String material, String style, double heightMm) {
         super(name, cost);
-        // stub
+        validateString(material, "material");
+        validateString(style, "style");
+        if (heightMm < 0) {
+            throw new IllegalArgumentException("height should be more than 0!");
+        }
+
+        this.material = material;
+        this.style = style;
+        this.heightMm = heightMm;
     }
 
     // EFFECTS: returns material
     public String getMaterial() {
-        return null;  // stub
+        return material;
     }
 
     // EFFECTS: returns style
     public String getStyle() {
-        return null;  // stub
+        return style;
     }
 
     // EFFECTS: returns height in millimetres
     public double getHeightMm() {
-        return 0.0; // stub
+        return heightMm;
     } 
 }
