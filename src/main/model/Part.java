@@ -15,16 +15,26 @@ public abstract class Part {
     // MODIFIES: this
     // EFFECTS:  constructs a part with the given name and cost
     public Part(String name, int cost) {
-        // stub
+
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("name must be not null or empty!");
+        }
+
+        if (cost < 0) {
+            throw new IllegalArgumentException("cost must be more than 0!");
+        }
+
+        this.name = name;
+        this.cost = cost;
     }
 
     // EFFECTS: returns the user-given unique name of this part
     public String getName() {
-        return null; // stub
+        return name;
     }
 
     //EFFECTS:  returns the cost of this part in CAD (whole dollars)
     public int getCost() {
-        return 0; // stub
+        return cost;
     }
 }
