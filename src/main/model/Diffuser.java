@@ -15,21 +15,26 @@ public class Diffuser extends Part {
     // EFFECTS:  constructs a diffuser with given specs
     public Diffuser(String name, int cost, String material, String brand, boolean functional) {
         super(name, cost);
-        // stub
+        validateString(material, "material");
+        validateString(brand, "brand");
+        
+        this.material = material;
+        this.brand = brand;
+        this.functional = functional;
     }
 
     // EFFECTS: returns material
     public String getMaterial() {
-        return null;  // stub
+        return material;  
     }
 
     // EFFECTS: returns brand
     public String getBrand() {
-        return null;  // stub
+        return brand;
     } 
 
     // EFFECTS: returns whether diffuser is functional
     public boolean isFunctional() {
-        return false;  // stub
+        return functional;
     }
 }
