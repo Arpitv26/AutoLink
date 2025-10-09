@@ -19,22 +19,30 @@ public class Tire extends Part {
      */
     public Tire(String name, int cost, int widthMm, int aspectPercent, double rimDiameterIn) {
         super(name, cost);
-         // stub
+
+
+    if (widthMm <= 0 || aspectPercent <= 0 || rimDiameterIn <= 0) {
+        throw new IllegalArgumentException("width, aspectPercent, and rimDiameterIn must all be more than 0!");
+        }
+
+        this.widthMm = widthMm;
+        this.aspectPercent = aspectPercent;
+        this.rimDiameterIn = rimDiameterIn;
     }
 
 
     //EFFECTS:  returns section width (mm)
     public int getWidthMm() {
-        return 0;  // stub
+        return widthMm;
     }
 
     //EFFECTS:  returns aspect ratio (percent)
     public int getAspectPercent() {
-        return 0;  // stub
+        return aspectPercent;
     }
 
     //EFFECTS:  returns matching rim diameter (inches)
     public double getRimDiameterIn() {
-        return 0.0;  // stub
+        return rimDiameterIn;
     }
 }
