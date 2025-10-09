@@ -17,23 +17,27 @@ public class Wheel extends Part {
     // EFFECTS:  constructs a wheel with the given specs
     public Wheel(String name, int cost, double diameterIn, double widthIn, int offsetMm) {
         super(name, cost);
-        // stub
+        if (diameterIn <= 0 || widthIn <= 0) {
+            throw new IllegalArgumentException("diameterIn and widthIn must both be > 0");
+            }
+
+        this.diameterIn = diameterIn;
+        this.widthIn = widthIn;
+        this.offsetMm = offsetMm;
     }
 
      // EFFECTS:  returns rim diameter (inches)
     public double getDiameterIn() {
-        return 0.0; // stub
+        return diameterIn; 
     }
-
 
     //EFFECTS:  returns rim width (inches)
     public double getWidthIn() {
-        return 0.0; // stub
+        return widthIn;
     }
-
 
     //EFFECTS:  returns offset (mm)
     public int getOffsetMm() {
-        return 0; // stub
+        return offsetMm;
     }
 }
