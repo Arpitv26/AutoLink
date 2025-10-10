@@ -191,6 +191,162 @@ public class BuildTest {
         assertFalse(build.replaceActivePart("tire", w18.getName())); 
     }
 
+
+    @Test
+public void testGetActiveNormalizationVariants() {
+    // seed actives directly via setters
+    Wheel w = new Wheel("W", 1000, 18.0, 8.0, 35);
+    Tire t = new Tire("T", 700, 245, 40, 18.0);
+    Bumper b = new Bumper("B", 500, "front", "cf", "X", "style");
+    SideSkirts s = new SideSkirts("SS", 300, "fg", "Y");
+
+    build.addPart(w); build.addPart(t); build.addPart(b); build.addPart(s);
+    assertTrue(build.setActiveWheel("W"));
+    assertTrue(build.setActiveTire("T"));
+    assertTrue(build.setActiveBumper("B"));
+    assertTrue(build.setActiveSideSkirts("SS"));
+
+    // plurals + spacing -> exercise normalizeCategory() branches
+    assertEquals(w, build.getActive("wheels"));
+    assertEquals(t, build.getActive("TIRES"));
+    assertEquals(b, build.getActive("bumpers"));
+    assertEquals(s, build.getActive("side skirts"));
+
+    // unknown -> null
+    assertNull(build.getActive("no-such-category"));
+}
+
+//individually testing all categories
+    @Test
+    public void testClearActiveAlln() {
+        // Make every category active, then clear each to hit every switch arm
+        List<Part> parts = List.of(
+            new Wheel("W", 1, 18.0, 8.0, 35),
+            new Tire("T", 1, 245, 40, 18.0),
+            new Suspension("SUS", 1, "coilover", 10),
+            new Exhaust("EXH", 1, "ss"),
+            new Engine("ENG", 1, "i4", 100, 2.0),
+            new Transmission("TRN", 1, "auto", 6, "FWD"),
+            new Bumper("B", 1, "front", "cf", "X", "style"),
+            new SideSkirts("SS", 1, "fg", "Y"),
+            new Diffuser("DIF", 1, "cf", "Z", true),
+            new Spoiler("SPL", 1, "cf", "gt", 10.0),
+            new Lights("L", 1, "headlights", "oem", "halogen", "4300K")
+        );
+        for (Part p : parts) { build.addPart(p); }
+        assertTrue(build.setActiveWheel("W"));
+        assertTrue(build.setActiveTire("T"));
+        assertTrue(build.setActiveSuspension("SUS"));
+        assertTrue(build.setActiveExhaust("EXH"));
+        assertTrue(build.setActiveEngine("ENG"));
+        assertTrue(build.setActiveTransmission("TRN"));
+        assertTrue(build.setActiveBumper("B"));
+        assertTrue(build.setActiveSideSkirts("SS"));
+        assertTrue(build.setActiveDiffuser("DIF"));
+        assertTrue(build.setActiveSpoiler("SPL"));
+        assertTrue(build.setActiveLights("L"));
+
+
+        assertTrue(build.clearActive("wheel"));
+        assertTrue(build.clearActive("tire"));
+        assertTrue(build.clearActive("suspension"));
+        assertTrue(build.clearActive("exhaust"));
+        assertTrue(build.clearActive("engine"));
+        assertTrue(build.clearActive("transmission"));
+        assertTrue(build.clearActive("bumper"));
+        assertTrue(build.clearActive("sideskirts"));
+        assertTrue(build.clearActive("diffuser"));
+        assertTrue(build.clearActive("spoiler"));
+        assertTrue(build.clearActive("lights"));
+
+        // unknown -> false branch
+        assertFalse(build.clearActive("unknown"));
+    }
+
+    @Test
+    public void testReplaceActivePartRemovesPreviousActiveForAllCategories() {
+    
+        build.addPart(w18); build.addPart(w19);
+        assertTrue(build.replaceActivePart("wheels", w18.getName()));
+        assertTrue(build.replaceActivePart("wheel", w19.getName()));
+        assertNull(build.getPartByName(w18.getName()));
+
+
+        build.addPart(t18); build.addPart(t19);
+        assertTrue(build.replaceActivePart("tires", t18.getName()));
+        assertTrue(build.replaceActivePart("tire", t19.getName()));
+        assertNull(build.getPartByName(t18.getName()));
+
+        build.addPart(sus);
+        Suspension sus2 = new Suspension("SUS-2", 2, "coilover", 15);
+        build.addPart(sus2);
+        assertTrue(build.replaceActivePart("suspension", sus.getName()));
+        assertTrue(build.replaceActivePart("suspension", sus2.getName()));
+        assertNull(build.getPartByName(sus.getName()));
+
+  
+        build.addPart(exh);
+        Exhaust exh2 = new Exhaust("EXH-2", 2, "stainless");
+        build.addPart(exh2);
+        assertTrue(build.replaceActivePart("exhaust", exh.getName()));
+        assertTrue(build.replaceActivePart("exhaust", exh2.getName()));
+        assertNull(build.getPartByName(exh.getName()));
+
+
+        build.addPart(eng);
+        Engine eng2 = new Engine("ENG-2", 2, "Inline-4", 180, 2.0);
+        build.addPart(eng2);
+        assertTrue(build.replaceActivePart("engine", eng.getName()));
+        assertTrue(build.replaceActivePart("engine", eng2.getName()));
+        assertNull(build.getPartByName(eng.getName()));
+
+        build.addPart(trans);
+        Transmission trans2 = new Transmission("TRN-2", 2, "Manual", 6, "RWD");
+        build.addPart(trans2);
+        assertTrue(build.replaceActivePart("transmission", trans.getName()));
+        assertTrue(build.replaceActivePart("transmission", trans2.getName()));
+        assertNull(build.getPartByName(trans.getName()));
+
+
+        build.addPart(bumpFront);
+        Bumper bumpRear = new Bumper("Mugen Rear", 1100, "rear", "carbon fiber", "Mugen", "aggressive");
+        build.addPart(bumpRear);
+        assertTrue(build.replaceActivePart("bumpers", bumpFront.getName())); // plural normalization
+        assertTrue(build.replaceActivePart("bumper", bumpRear.getName()));
+        assertNull(build.getPartByName(bumpFront.getName()));
+
+        build.addPart(skirts);
+        SideSkirts skirts2 = new SideSkirts("TRD Skirts V2", 700, "fiberglass", "TRD");
+        build.addPart(skirts2);
+        assertTrue(build.replaceActivePart("side skirts", skirts.getName())); // spaced normalization
+        assertTrue(build.replaceActivePart("sideskirts", skirts2.getName()));
+        assertNull(build.getPartByName(skirts.getName()));
+
+   
+        build.addPart(dif);
+        Diffuser dif2 = new Diffuser("APR Diffuser V2", 999, "carbon fiber", "APR", false);
+        build.addPart(dif2);
+        assertTrue(build.replaceActivePart("diffuser", dif.getName()));
+        assertTrue(build.replaceActivePart("diffuser", dif2.getName()));
+        assertNull(build.getPartByName(dif.getName()));
+
+      
+        build.addPart(spl);
+        Spoiler spl2 = new Spoiler("Voltex GT Type-2", 1900, "carbon fiber", "GT", 300.0);
+        build.addPart(spl2);
+        assertTrue(build.replaceActivePart("spoiler", spl.getName()));
+        assertTrue(build.replaceActivePart("spoiler", spl2.getName()));
+        assertNull(build.getPartByName(spl.getName()));
+
+        
+        build.addPart(head); build.addPart(tail);
+        assertTrue(build.replaceActivePart("lights", head.getName()));
+        assertTrue(build.replaceActivePart("lights", tail.getName()));
+        assertNull(build.getPartByName(head.getName()));
+    }
+
+
+
     //                                                  Baseline & fitment
     // --------------------------------------------------------------------------------------------------------------
 

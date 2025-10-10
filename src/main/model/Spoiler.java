@@ -4,6 +4,7 @@ package model;
  * Represents a spoiler or wing.
  * Immutable once constructed.
  */
+
 public class Spoiler extends Part {
     private final String material;
     private final String style;
