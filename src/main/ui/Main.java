@@ -6,6 +6,6 @@ public class Main {
 
     // EFFECT: launches the AutoLinkApp
     public static void main(String[] args) throws Exception {
-        //stub
+        new AutoLinkApp().run();
     }  
 }
