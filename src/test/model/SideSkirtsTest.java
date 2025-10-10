@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the SideSkirts class
 
-public class TestSideSkirts {
+public class SideSkirtsTest {
 
     private SideSkirts sideSkirts;
 

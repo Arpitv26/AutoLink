@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Diffuser class
 
-public class TestDiffuser {
+public class DiffuserTest {
 
     private Diffuser diffuser;
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Part abstract class
-public class TestPart {
+public class PartTest {
 
     private Part testPart;
 

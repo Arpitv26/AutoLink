@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Exhaust class
 
-public class TestExhaust {
+public class ExhaustTest {
 
     private Exhaust exhaust;
 

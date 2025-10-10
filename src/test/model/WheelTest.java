@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Wheel class
-public class TestWheel {
+public class WheelTest {
 
     private Wheel wheel;
 

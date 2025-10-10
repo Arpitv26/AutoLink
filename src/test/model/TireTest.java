@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Tire class
 
-public class TestTire {
+public class TireTest {
 
     private Tire tire;
 

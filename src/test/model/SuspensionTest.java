@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Suspension class
 
-public class TestSuspension {
+public class SuspensionTest {
 
     private Suspension suspension;
 
@@ -39,5 +39,11 @@ public class TestSuspension {
     public void testInvalidConstructorNegativeCost() {
         assertThrows(IllegalArgumentException.class, () ->
                 new Suspension("AirLift Performance", -300, "air", 60));
+    }
+
+    @Test
+    public void testInvalidConstructorNeg() {
+        assertThrows(IllegalArgumentException.class, () ->
+        new Suspension("Tein Flex Z", 1100, "coilover", -10));
     }
 }

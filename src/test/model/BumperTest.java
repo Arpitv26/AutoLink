@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Bumper class.
 
-public class TestBumper {
+public class BumperTest {
 
     private Bumper bumper;
 

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Build class
 
-public class TestBuild {
+public class BuildTest {
 
     private Build build;
 
@@ -100,6 +100,49 @@ public class TestBuild {
     public void testRemovePartByUnknownName() {
         assertFalse(build.removePartByName("does not exist"));
     }
+
+    @Test
+    public void testRemovePartByNameThrows() {
+        assertThrows(IllegalArgumentException.class, () -> build.removePartByName(null));
+        assertThrows(IllegalArgumentException.class, () -> build.removePartByName("   "));
+    }
+
+    @Test
+    public void testRemovePartByNameNotFound() {
+        assertFalse(build.removePartByName("does not exist"));
+    }
+
+    @Test
+    public void testRemovePartByNameClearsActive() {
+        Wheel w1 = new Wheel("W", 1000, 18.0, 8.0, 35);
+        build.addPart(w1);
+        assertTrue(build.setActiveWheel("W"));
+        assertTrue(build.removePartByName("W"));
+        assertNull(build.getActive("wheel"));
+    }
+
+    //throws on null or empty
+    @Test
+    public void testGetPartByNameThrowsOnNullOrEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> build.getPartByName(null));
+        assertThrows(IllegalArgumentException.class, () -> build.getPartByName("  "));
+    }
+
+    @Test
+    public void testGetPartByNameWhenMissing() {
+        assertNull(build.getPartByName("nope"));
+    }
+
+    @Test
+    public void testListAllPartsReturnsCopy() {
+        Wheel w = new Wheel("W", 1000, 18.0, 8.0, 35);
+        build.addPart(w);
+        List<Part> copy = build.listAllParts();
+        assertEquals(1, copy.size());
+        copy.clear(); 
+        assertEquals(1, build.listAllParts().size()); //to see for not affecting inventory
+    }
+
 
     //                                                  Active selections
     // --------------------------------------------------------------------------------------------------------------

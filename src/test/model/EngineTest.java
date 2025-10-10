@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Engine class
 
-public class TestEngine {
+public class EngineTest {
 
     private Engine engine;
 

@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Transmission class
 
-public class TestTransmission {
+public class TransmissionTest {
 
     private Transmission transmission;
 

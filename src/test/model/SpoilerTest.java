@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Spoiler class
 
-public class TestSpoiler {
+public class SpoilerTest {
 
     private Spoiler spoiler;
 
