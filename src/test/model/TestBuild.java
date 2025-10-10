@@ -98,7 +98,7 @@ public class TestBuild {
 
     @Test
     public void testRemovePartByUnknownName() {
-        assertFalse(build.removePartByName("does-not-exist"));
+        assertFalse(build.removePartByName("does not exist"));
     }
 
     //                                                  Active selections
@@ -201,7 +201,7 @@ public class TestBuild {
 
     @Test
     public void testRunFitmentOverThreePercent() {
-        build.setBaselineTire(245, 35, 19.0);
+        build.setBaselineTire(245, 30, 19.0);
         assertTrue(build.addPart(w18));
         assertTrue(build.addPart(t18));
         assertTrue(build.setActiveWheel(w18.getName()));
