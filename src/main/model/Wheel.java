@@ -19,7 +19,7 @@ public class Wheel extends Part {
         super(name, cost);
         if (diameterIn <= 0 || widthIn <= 0) {
             throw new IllegalArgumentException("diameterIn and widthIn must both be > 0");
-            }
+        }
 
         this.diameterIn = diameterIn;
         this.widthIn = widthIn;

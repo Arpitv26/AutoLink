@@ -21,8 +21,8 @@ public class Tire extends Part {
         super(name, cost);
 
 
-    if (widthMm <= 0 || aspectPercent <= 0 || rimDiameterIn <= 0) {
-        throw new IllegalArgumentException("width, aspectPercent, and rimDiameterIn must all be more than 0!");
+        if (widthMm <= 0 || aspectPercent <= 0 || rimDiameterIn <= 0) {
+            throw new IllegalArgumentException("width, aspectPercent, and rimDiameterIn must all be more than 0!");
         }
 
         this.widthMm = widthMm;

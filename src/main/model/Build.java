@@ -1,10 +1,6 @@
 package model;
 
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 
 
@@ -197,7 +193,7 @@ public class Build {
     // REQUIRES: name != null && non-empty
     // MODIFIES: this
     // EFFECTS: if a Transmission with the given name exists, sets it active and
-    // returns true; otherwise returns false
+    //          returns true; otherwise returns false
     public boolean setActiveTransmission(String name) {
         Part p = getPartByName(name);
         if (p instanceof Transmission) {
@@ -210,8 +206,8 @@ public class Build {
     // REQUIRES: name != null && non-empty
     // MODIFIES: this
     // EFFECTS: if a Bumper with the given name exists, sets it active (front or
-    // rear, stored in type) and returns true
-    // otherwise returns false
+    //          rear, stored in type) and returns true
+    //          otherwise returns false
     public boolean setActiveBumper(String name) {
         Part p = getPartByName(name);
         if (p instanceof Bumper) {
@@ -224,7 +220,7 @@ public class Build {
     // REQUIRES: name != null && non-empty
     // MODIFIES: this
     // EFFECTS: if a SideSkirts with the given name exists, sets it active and
-    // returns true; otherwise returns false
+    //          returns true; otherwise returns false
     public boolean setActiveSideSkirts(String name) {
         Part p = getPartByName(name);
         if (p instanceof SideSkirts) {
@@ -363,10 +359,10 @@ public class Build {
         return sum;
     }
     // EFFECTS:  returns counts of parts by category name
-    //           result is a defensive copy; ordering unspecified
+    //           result is a copy
 
     public Map<String, Integer> countsByCategory() {
-        Map<String, Integer> counts = new java.util.HashMap<>();
+        Map<String, Integer> counts = new HashMap<>();
         for (Part p : inventory) {
             String key = p.getClass().getSimpleName();
             counts.put(key, counts.getOrDefault(key, 0) + 1);
@@ -440,7 +436,7 @@ public class Build {
 
     // REQUIRES: s != null
     // MODIFIES: nothing
-    // EFFECTS:  returns canonical category key (handles plurals/spacing)
+    // EFFECTS:  returns category key
     private static String normalizeCategory(String s) {
         String c = s.trim().toLowerCase();
         if (c.equals("wheels")) {

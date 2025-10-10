@@ -1,9 +1,11 @@
 package ui;
 
-import model.Build;
+// Main clas that runs the AutoLink application and starts the UI
 
 public class Main {
+
+    // EFFECT: launches the AutoLinkApp
     public static void main(String[] args) throws Exception {
-        Build build = new Build();
-    }
+        //stub
+    }  
 }
