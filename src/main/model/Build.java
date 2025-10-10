@@ -26,8 +26,8 @@ public class Build {
     private Spoiler activeSpoiler;
     private Lights activeLights; 
 
-    private Double referenceOdMm;                  // user-set default for rolling diameter
-    private final double rollingDeltaThresholdPct; // in this case will be setting it to a default of 3% for the program
+    //private Double referenceOdMm;                  // user-set default for rolling diameter
+    //private final double rollingDeltaThresholdPct; // in this case will be set to a default of 3% for the program
 
     // MODIFIES: this
     // EFFECTS:  constructs an empty build with no baseline; threshold set to 3.0
@@ -35,8 +35,8 @@ public class Build {
         inventory = new ArrayList<>();
         nameIndex = new HashSet<>();
 
-        referenceOdMm = null;
-        rollingDeltaThresholdPct = 3.0;
+        //referenceOdMm = null;
+        //rollingDeltaThresholdPct = 3.0;
 
     }
 
@@ -269,9 +269,56 @@ public class Build {
         return false;
     }
 
+    // REQUIRES: category != null && non-empty
+    // EFFECTS: returns the active Part for the given category key or null if none
+    public Part getActive(String category) {
+        String c = normalizeCategory(category);
+        return switch (c) {
+            case "wheel"        -> activeWheel;
+            case "tire"         -> activeTire;
+            case "suspension"   -> activeSuspension;
+            case "exhaust"      -> activeExhaust;
+            case "engine"       -> activeEngine;
+            case "transmission" -> activeTransmission;
+            case "bumper"       -> activeBumper;
+            case "sideskirts"   -> activeSideSkirts;
+            case "diffuser"     -> activeDiffuser;
+            case "spoiler"      -> activeSpoiler;
+            case "lights"       -> activeLights;
+            default             -> null;
+        };
+    }
+
+
+    // REQUIRES: category != null && non-empty
+    // MODIFIES: this
+    // EFFECTS: clears the active selection for the given category or returns true if category is known
+    public boolean clearActive(String category) {
+        String c = normalizeCategory(category);
+        switch (c) {
+            case "wheel" -> activeWheel = null;
+            case "tire" -> activeTire = null;
+            case "suspension" -> activeSuspension = null;
+            case "exhaust" -> activeExhaust = null;
+            case "engine" -> activeEngine = null;
+            case "transmission" -> activeTransmission = null;
+            case "bumper" -> activeBumper = null;
+            case "sideskirts" -> activeSideSkirts = null;
+            case "diffuser" -> activeDiffuser = null;
+            case "spoiler" -> activeSpoiler = null;
+            case "lights" -> activeLights = null;
+            default -> {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     //                                              Baseline + fitment
     // -----------------------------------------------------------------------------------------------------------------
 
+/** will implement this later on 
     // REQUIRES: widthMm > 0 and aspectPct > 0 and rimIn > 0
     // MODIFIES: this
     // EFFECTS: sets the baseline rolling diameter in millimeters using the given tire size
@@ -290,8 +337,7 @@ public class Build {
     //            wheel.diameterIn
     //          - warns "Rolling diameter difference exceeds ±3%" if delta vs. baseline >
     //            threshold
-    public List<String> runFitmentCheck() {
-        List<String> warnings = new ArrayList<>();
+        ListString warnings = new ArrayList();
         if (referenceOdMm == null) {
             warnings.add("Set baseline tire before running fitment check");
         }
@@ -316,11 +362,14 @@ public class Build {
         }
         return warnings;
     }
+**/
+
 
     //                                                  Summary
     // -----------------------------------------------------------------------------------------------------------------
 
     // EFFECTS: returns the total cost of active parts only
+    @SuppressWarnings("methodlength")
     public int totalCost() {
         int sum = 0;
         if (activeWheel != null) {
@@ -389,6 +438,7 @@ public class Build {
         return null;   
     }
 
+/** 
     // REQUIRES: widthMm > 0; aspectPct > 0; rimIn > 0
     // MODIFIES: nothing
     // EFFECTS:  returns rolling outer diameter in millimeters using standard tire formula
@@ -396,8 +446,8 @@ public class Build {
         double sidewall = widthMm * (aspectPct / 100.0);
         return rimIn * 25.4 + 2.0 * sidewall;
     }
-
-    
+**/
+    @SuppressWarnings("methodlength")
     private void clearIfActive(Part target) {
         if (target == activeWheel) {
             activeWheel = null;
