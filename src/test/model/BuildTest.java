@@ -193,8 +193,8 @@ public class BuildTest {
 
 
     @Test
-public void testGetActiveNormalizationVariants() {
-    // seed actives directly via setters
+public void testGetActiveVariants() {
+
     Wheel w = new Wheel("W", 1000, 18.0, 8.0, 35);
     Tire t = new Tire("T", 700, 245, 40, 18.0);
     Bumper b = new Bumper("B", 500, "front", "cf", "X", "style");
@@ -206,20 +206,19 @@ public void testGetActiveNormalizationVariants() {
     assertTrue(build.setActiveBumper("B"));
     assertTrue(build.setActiveSideSkirts("SS"));
 
-    // plurals + spacing -> exercise normalizeCategory() branches
+
     assertEquals(w, build.getActive("wheels"));
     assertEquals(t, build.getActive("TIRES"));
     assertEquals(b, build.getActive("bumpers"));
     assertEquals(s, build.getActive("side skirts"));
 
-    // unknown -> null
+
     assertNull(build.getActive("no-such-category"));
 }
 
 //individually testing all categories
     @Test
     public void testClearActiveAlln() {
-        // Make every category active, then clear each to hit every switch arm
         List<Part> parts = List.of(
             new Wheel("W", 1, 18.0, 8.0, 35),
             new Tire("T", 1, 245, 40, 18.0),
@@ -259,7 +258,6 @@ public void testGetActiveNormalizationVariants() {
         assertTrue(build.clearActive("spoiler"));
         assertTrue(build.clearActive("lights"));
 
-        // unknown -> false branch
         assertFalse(build.clearActive("unknown"));
     }
 
@@ -311,14 +309,14 @@ public void testGetActiveNormalizationVariants() {
         build.addPart(bumpFront);
         Bumper bumpRear = new Bumper("Mugen Rear", 1100, "rear", "carbon fiber", "Mugen", "aggressive");
         build.addPart(bumpRear);
-        assertTrue(build.replaceActivePart("bumpers", bumpFront.getName())); // plural normalization
+        assertTrue(build.replaceActivePart("bumpers", bumpFront.getName())); 
         assertTrue(build.replaceActivePart("bumper", bumpRear.getName()));
         assertNull(build.getPartByName(bumpFront.getName()));
 
         build.addPart(skirts);
         SideSkirts skirts2 = new SideSkirts("TRD Skirts V2", 700, "fiberglass", "TRD");
         build.addPart(skirts2);
-        assertTrue(build.replaceActivePart("side skirts", skirts.getName())); // spaced normalization
+        assertTrue(build.replaceActivePart("side skirts", skirts.getName()));
         assertTrue(build.replaceActivePart("sideskirts", skirts2.getName()));
         assertNull(build.getPartByName(skirts.getName()));
 
@@ -338,7 +336,7 @@ public void testGetActiveNormalizationVariants() {
         assertTrue(build.replaceActivePart("spoiler", spl2.getName()));
         assertNull(build.getPartByName(spl.getName()));
 
-        
+
         build.addPart(head); build.addPart(tail);
         assertTrue(build.replaceActivePart("lights", head.getName()));
         assertTrue(build.replaceActivePart("lights", tail.getName()));
