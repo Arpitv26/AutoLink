@@ -3,13 +3,15 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Build class
-
+@ExcludeFromJacocoGeneratedReport
 public class BuildTest {
 
     private Build build;

@@ -2,10 +2,13 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Spoiler class
-
+@ExcludeFromJacocoGeneratedReport
 public class SpoilerTest {
 
     private Spoiler spoiler;

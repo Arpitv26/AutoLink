@@ -1,7 +1,9 @@
 package ui;
 
-// Main clas that runs the AutoLink application and starts the UI
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
+// Main clas that runs the AutoLink application and starts the UI
+@ExcludeFromJacocoGeneratedReport
 public class Main {
 
     // EFFECT: launches the AutoLinkApp

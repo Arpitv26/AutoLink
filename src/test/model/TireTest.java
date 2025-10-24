@@ -2,10 +2,13 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 // Unit tests for the Tire class
-
+@ExcludeFromJacocoGeneratedReport
 public class TireTest {
 
     private Tire tire;

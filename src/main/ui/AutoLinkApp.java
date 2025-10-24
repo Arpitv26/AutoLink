@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.*;
 
 // representation of the console based UI interface for AutoLink through user interaction with console-based inputs
 // follows phase 1 user stories where user can add, remove, 
 // list parts, and manage active selections to get a summary etc
 
-
+@ExcludeFromJacocoGeneratedReport
 public class AutoLinkApp {
     private Scanner sc;
     private Build build;
