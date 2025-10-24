@@ -1,0 +1,75 @@
+package persistence;
+
+import model.Build;
+import model.Part;
+import org.junit.jupiter.api.Test;
+import java.io.IOException;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+// Tests for JsonReader class
+public class JsonReaderTest {
+
+    @Test
+    void testReaderNonExistentFile() {
+        JsonReader reader = new JsonReader("./data/noSuchFile.json");
+        try {
+            BuildData data = reader.read();
+            fail("IOException expected");
+        } catch (IOException e) {
+        }
+    }
+
+    @Test
+    void testReaderEmptyBuildData() {
+        JsonReader reader = new JsonReader("./data/testReaderEmptyBuildData.json");
+        try {
+            BuildData data = reader.read();
+
+            assertNotNull(data.getBuild());
+            assertEquals("Empty Build", data.getBuild().getName());
+            assertEquals(0, data.getBuild().getParts().size());
+            assertEquals(0, data.getInventory().size());
+
+        } catch (IOException e) {
+            fail("Couldn't read from file");
+        }
+    }
+
+    @Test
+    void testReaderGeneralBuildData() {
+        JsonReader reader = new JsonReader("./data/testReaderGeneralBuildData.json");
+        try {
+            BuildData data = reader.read();
+            Build build = data.getBuild();
+            List<Part> inventory = data.getInventory();
+
+            // build
+            assertEquals("Supra Build", build.getName());
+            assertEquals(2, build.getParts().size());
+
+            Part firstBuildPart = build.getParts().get(0);
+            assertEquals("BBS RS", firstBuildPart.getName());
+            assertEquals(800, firstBuildPart.getCost());
+
+            //parts inside build
+            Part secondBuildPart = build.getParts().get(1);
+            assertEquals("TRD Spoiler", secondBuildPart.getName());
+            assertEquals(300, secondBuildPart.getCost());
+
+            //inventory
+            assertEquals(2, inventory.size());
+
+            Part firstInventoryPart = inventory.get(0);
+            assertEquals("OEM Bumper", firstInventoryPart.getName());
+            assertEquals(400, firstInventoryPart.getCost());
+
+            Part secondInventoryPart = inventory.get(1);
+            assertEquals("Mishimoto Radiator", secondInventoryPart.getName());
+            assertEquals(250, secondInventoryPart.getCost());
+
+        } catch (IOException e) {
+            fail("Couldn't read from file");
+        }
+    }
+}

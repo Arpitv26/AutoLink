@@ -12,6 +12,7 @@ public class Build {
     //inventory of all parts and lists
     private final List<Part> inventory;
     private final Set<String> nameIndex;
+    private String name; //phase 2 addition for data persistence
 
     //active subParts we can have
     private Wheel activeWheel;
@@ -29,16 +30,30 @@ public class Build {
     //private Double referenceOdMm;                  // user-set default for rolling diameter
     //private final double rollingDeltaThresholdPct; // in this case will be set to a default of 3% for the program
 
+    // EFFECTS: constructs an empty build with default name "MyBuild"
+    public Build() {
+        this("MyBuild");
+    }
+    
+
     // MODIFIES: this
     // EFFECTS:  constructs an empty build with no baseline; threshold set to 3.0
-    public Build() {
+    public Build(String name) {
         inventory = new ArrayList<>();
         nameIndex = new HashSet<>();
+        this.name = name;
 
         //referenceOdMm = null;
         //rollingDeltaThresholdPct = 3.0;
 
     }
+
+
+    // EFFECTS: returns the name of this build
+    public String getName() {
+        return name;
+    }
+    
 
     //                                                 Inventory management
     // -----------------------------------------------------------------------------------------------------------------
@@ -634,6 +649,11 @@ public class Build {
         }
         activeLights = l; 
         return true;
+    }
+
+    // EFFECTS: returns all parts in the build's inventory
+    public List<Part> getParts() {
+        return new ArrayList<>(inventory);
     }
 
 
