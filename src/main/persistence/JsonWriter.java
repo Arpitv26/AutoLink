@@ -1,9 +1,12 @@
 package persistence;
 
 import model.*;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.List;
 
 // Citation: Modelled after the JsonWriter class in the WorkRoom example provided in the CPSC 210 Term Project Task 3
 
@@ -24,23 +27,57 @@ public class JsonWriter {
     // EFFECTS: opens writer for writing to file at destination
     //          throws FileNotFoundException if destination file cannot be opened
     public void open() throws FileNotFoundException {
-        // stub
+        writer = new PrintWriter(destination);
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of the given BuildData object to file
     public void write(BuildData data) {
-        // stub
+        JSONObject json = new JSONObject();
+        json.put("activeBuild", buildToJson(data.getBuild()));
+        json.put("inventory", inventoryToJson(data.getInventory()));
+        saveToFile(json.toString(TAB));
     }
 
     // MODIFIES: this
     // EFFECTS: closes writer
     public void close() {
-        // stub
+        writer.close();
     }
 
     // EFFECTS: saves given JSON string to file
     private void saveToFile(String json) {
-        // stub
+        writer.print(json);
+    }
+
+        // EFFECTS: converts Build to JSON object
+    private JSONObject buildToJson(Build build) {
+        JSONObject json = new JSONObject();
+        json.put("name", build.getName());
+
+        JSONArray partsArray = new JSONArray();
+        for (Part p : build.getParts()) {
+            JSONObject partJson = new JSONObject();
+            partJson.put("name", p.getName());
+            partJson.put("cost", p.getCost());
+            partsArray.put(partJson);
+        }
+        json.put("parts", partsArray);
+
+        return json;
+    }
+
+    // EFFECTS: converts list of parts (inventory) to JSON array
+    private JSONArray inventoryToJson(List<Part> inventory) {
+        JSONArray array = new JSONArray();
+
+        for (Part p : inventory) {
+            JSONObject partJson = new JSONObject();
+            partJson.put("name", p.getName());
+            partJson.put("cost", p.getCost());
+            array.put(partJson);
+        }
+
+        return array;
     }
 }

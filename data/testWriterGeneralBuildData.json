@@ -1,0 +1,25 @@
+{
+    "activeBuild": {
+        "name": "Supra Build",
+        "parts": [
+            {
+                "cost": 800,
+                "name": "BBS RS"
+            },
+            {
+                "cost": 300,
+                "name": "TRD Spoiler"
+            }
+        ]
+    },
+    "inventory": [
+        {
+            "cost": 400,
+            "name": "OEM Bumper"
+        },
+        {
+            "cost": 250,
+            "name": "Mishimoto Radiator"
+        }
+    ]
+}
