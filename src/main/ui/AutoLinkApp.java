@@ -401,7 +401,6 @@ public class AutoLinkApp {
 
     // Diffuser
     private Part createDiffuserFromInput(String name, int cost) {
-        // TODO: material, brand, functional (yes/no)
         String material = readNonEmpty("Enter material: ");
         String brand = readNonEmpty("Enter brand: ");
         boolean functional = readBoolean("Is it functional (affects aerodynamics)? ");
@@ -491,8 +490,21 @@ public class AutoLinkApp {
     // MODIFIES: this
     // EFFECTS: prints one active line safely 
     private void printActive(String label, Part p) {
-        String name = (p == null) ? "—" : p.getName();
-        String cost = (p == null) ? "—" : String.valueOf(p.getCost());
+        String name;
+        String cost;
+
+        if (p == null) {
+            name = "-";
+        } else {
+            name = p.getName();
+        }
+
+        if (p == null) {
+            cost = "-";
+        } else {
+            cost = p.getName();
+        }
+
         System.out.println(label + ": " + name + " (cost " + cost + ")");
     }
 }

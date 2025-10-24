@@ -193,28 +193,31 @@ public class BuildTest {
 
 
     @Test
-public void testGetActiveVariants() {
+    public void testGetActiveVariants() {
 
-    Wheel w = new Wheel("W", 1000, 18.0, 8.0, 35);
-    Tire t = new Tire("T", 700, 245, 40, 18.0);
-    Bumper b = new Bumper("B", 500, "front", "cf", "X", "style");
-    SideSkirts s = new SideSkirts("SS", 300, "fg", "Y");
+        Wheel w = new Wheel("W", 1000, 18.0, 8.0, 35);
+        Tire t = new Tire("T", 700, 245, 40, 18.0);
+        Bumper b = new Bumper("B", 500, "front", "cf", "X", "style");
+        SideSkirts s = new SideSkirts("SS", 300, "fg", "Y");
 
-    build.addPart(w); build.addPart(t); build.addPart(b); build.addPart(s);
-    assertTrue(build.setActiveWheel("W"));
-    assertTrue(build.setActiveTire("T"));
-    assertTrue(build.setActiveBumper("B"));
-    assertTrue(build.setActiveSideSkirts("SS"));
-
-
-    assertEquals(w, build.getActive("wheels"));
-    assertEquals(t, build.getActive("TIRES"));
-    assertEquals(b, build.getActive("bumpers"));
-    assertEquals(s, build.getActive("side skirts"));
+        build.addPart(w); 
+        build.addPart(t); 
+        build.addPart(b); 
+        build.addPart(s);
+        assertTrue(build.setActiveWheel("W"));
+        assertTrue(build.setActiveTire("T"));
+        assertTrue(build.setActiveBumper("B"));
+        assertTrue(build.setActiveSideSkirts("SS"));
 
 
-    assertNull(build.getActive("no-such-category"));
-}
+        assertEquals(w, build.getActive("wheels"));
+        assertEquals(t, build.getActive("TIRES"));
+        assertEquals(b, build.getActive("bumpers"));
+        assertEquals(s, build.getActive("side skirts"));
+
+
+        assertNull(build.getActive("no-such-category"));
+    }
 
 //individually testing all categories
     @Test
@@ -232,7 +235,9 @@ public void testGetActiveVariants() {
             new Spoiler("SPL", 1, "cf", "gt", 10.0),
             new Lights("L", 1, "headlights", "oem", "halogen", "4300K")
         );
-        for (Part p : parts) { build.addPart(p); }
+        for (Part p : parts) {
+            build.addPart(p);
+        }
         assertTrue(build.setActiveWheel("W"));
         assertTrue(build.setActiveTire("T"));
         assertTrue(build.setActiveSuspension("SUS"));
@@ -262,15 +267,17 @@ public void testGetActiveVariants() {
     }
 
     @Test
-    public void testReplaceActivePartRemovesPreviousActiveForAllCategories() {
+    public void testReplaceActivePartRemoves() {
     
-        build.addPart(w18); build.addPart(w19);
+        build.addPart(w18);
+        build.addPart(w19);
         assertTrue(build.replaceActivePart("wheels", w18.getName()));
         assertTrue(build.replaceActivePart("wheel", w19.getName()));
         assertNull(build.getPartByName(w18.getName()));
 
 
-        build.addPart(t18); build.addPart(t19);
+        build.addPart(t18);
+        build.addPart(t19);
         assertTrue(build.replaceActivePart("tires", t18.getName()));
         assertTrue(build.replaceActivePart("tire", t19.getName()));
         assertNull(build.getPartByName(t18.getName()));
@@ -337,7 +344,8 @@ public void testGetActiveVariants() {
         assertNull(build.getPartByName(spl.getName()));
 
 
-        build.addPart(head); build.addPart(tail);
+        build.addPart(head); 
+        build.addPart(tail);
         assertTrue(build.replaceActivePart("lights", head.getName()));
         assertTrue(build.replaceActivePart("lights", tail.getName()));
         assertNull(build.getPartByName(head.getName()));
