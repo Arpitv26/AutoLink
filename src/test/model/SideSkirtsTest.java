@@ -43,4 +43,15 @@ public class SideSkirtsTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new SideSkirts("Carbon Skirts", -100, "carbon fiber", "APR"));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = sideSkirts.toJson();
+        assertEquals("SideSkirts", json.getString("category"));
+        assertEquals("TRD Side Skirts", json.getString("name"));
+        assertEquals(650, json.getInt("cost"));
+        assertEquals("fiberglass", json.getString("material"));
+        assertEquals("TRD", json.getString("brand"));
+    }
+
 }

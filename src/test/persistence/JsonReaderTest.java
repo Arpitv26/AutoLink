@@ -4,6 +4,9 @@ import model.Build;
 import model.Part;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,4 +78,31 @@ public class JsonReaderTest {
             fail("Couldn't read from file");
         }
     }
+
+    @Test
+    void testReaderUnknownCategory() {
+        try {
+            String json = """
+            {
+            "build": {
+                "name": "Invalid Build",
+                "parts": [
+                {"category":"UnknownPart","name":"Mystery","cost":100}
+                ]
+            },
+            "inventory": []
+            }
+            """;
+
+            Path path = Paths.get("./data/testReaderUnknownCategory.json");
+            Files.writeString(path, json);
+
+            JsonReader reader = new JsonReader(path.toString());
+            assertThrows(org.json.JSONException.class, reader::read);
+
+        } catch (IOException e) {
+            fail("Unexpected IOException");
+        }
+    }
+
 }

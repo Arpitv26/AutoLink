@@ -1,0 +1,9 @@
+{
+"build": {
+    "name": "Invalid Build",
+    "parts": [
+    {"category":"UnknownPart","name":"Mystery","cost":100}
+    ]
+},
+"inventory": []
+}

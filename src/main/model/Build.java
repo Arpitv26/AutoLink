@@ -290,18 +290,18 @@ public class Build {
     public Part getActive(String category) {
         String c = normalizeCategory(category);
         return switch (c) {
-            case "wheel"        -> activeWheel;
-            case "tire"         -> activeTire;
-            case "suspension"   -> activeSuspension;
-            case "exhaust"      -> activeExhaust;
-            case "engine"       -> activeEngine;
+            case "wheel" -> activeWheel;
+            case "tire" -> activeTire;
+            case "suspension" -> activeSuspension;
+            case "exhaust" -> activeExhaust;
+            case "engine" -> activeEngine;
             case "transmission" -> activeTransmission;
-            case "bumper"       -> activeBumper;
-            case "sideskirts"   -> activeSideSkirts;
-            case "diffuser"     -> activeDiffuser;
-            case "spoiler"      -> activeSpoiler;
-            case "lights"       -> activeLights;
-            default             -> null;
+            case "bumper" -> activeBumper;
+            case "sideskirts" -> activeSideSkirts;
+            case "diffuser" -> activeDiffuser;
+            case "spoiler" -> activeSpoiler;
+            case "lights" -> activeLights;
+            default -> null;
         };
     }
 

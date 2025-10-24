@@ -44,4 +44,16 @@ public class DiffuserTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Diffuser("Cheap Diffuser", -50, "plastic", "eBay", false));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = diffuser.toJson();
+        assertEquals("Diffuser", json.getString("category"));
+        assertEquals("APR Rear Diffuser", json.getString("name"));
+        assertEquals(950, json.getInt("cost"));
+        assertEquals("carbon fiber", json.getString("material"));
+        assertEquals("APR", json.getString("brand"));
+        assertTrue(json.getBoolean("functional"));
+    }
+
 }

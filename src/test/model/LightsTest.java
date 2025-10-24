@@ -45,4 +45,17 @@ public class LightsTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Lights("HID Retrofits", -100, "headlights", "Morimoto", "HID", "5000K"));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = lights.toJson();
+        assertEquals("Lights", json.getString("category"));
+        assertEquals("Valenti LED Tails", json.getString("name"));
+        assertEquals(800, json.getInt("cost"));
+        assertEquals("taillights", json.getString("type"));
+        assertEquals("Valenti", json.getString("brand"));
+        assertEquals("LED", json.getString("lightType"));
+        assertEquals("smoked finish", json.getString("detail"));
+    }
+
 }

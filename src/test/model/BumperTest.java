@@ -46,4 +46,17 @@ public class BumperTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Bumper("OEM Rear", -200, "rear", "plastic", "OEM", "simple"));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = bumper.toJson();
+        assertEquals("Bumper", json.getString("category"));
+        assertEquals("Mugen Front", json.getString("name"));
+        assertEquals(1200, json.getInt("cost"));
+        assertEquals("front", json.getString("type"));
+        assertEquals("carbon fiber", json.getString("material"));
+        assertEquals("Mugen", json.getString("brand"));
+        assertEquals("aggressive", json.getString("style"));
+    }
+
 }

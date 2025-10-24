@@ -50,4 +50,16 @@ public class SpoilerTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Spoiler("APR Wing", 1300, "carbon fiber", "GT", -25.0));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = spoiler.toJson();
+        assertEquals("Spoiler", json.getString("category"));
+        assertEquals("Voltex GT Wing", json.getString("name"));
+        assertEquals(1800, json.getInt("cost"));
+        assertEquals("carbon fiber", json.getString("material"));
+        assertEquals("GT", json.getString("style"));
+        assertEquals(320.5, json.getDouble("heightMm"));
+    }
+
 }

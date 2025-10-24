@@ -50,4 +50,16 @@ public class WheelTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Wheel("", 1800, 17.0, 8.0, 35));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = wheel.toJson();
+        assertEquals("Wheel", json.getString("category"));
+        assertEquals("Volk TE37", json.getString("name"));
+        assertEquals(3200, json.getInt("cost"));
+        assertEquals(18.0, json.getDouble("diameterIn"));
+        assertEquals(9.5, json.getDouble("widthIn"));
+        assertEquals(22, json.getInt("offsetMm"));
+    }
+
 }

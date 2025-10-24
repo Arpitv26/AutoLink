@@ -50,4 +50,16 @@ public class TransmissionTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Transmission("Custom Sequential", 10000, "Sequential", 0, "RWD"));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = transmission.toJson();
+        assertEquals("Transmission", json.getString("category"));
+        assertEquals("GR6 DCT", json.getString("name"));
+        assertEquals(8000, json.getInt("cost"));
+        assertEquals("Dual-Clutch", json.getString("type"));
+        assertEquals(6, json.getInt("gears"));
+        assertEquals("AWD", json.getString("drive"));
+    }
+
 }

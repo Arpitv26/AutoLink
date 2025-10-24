@@ -50,4 +50,16 @@ public class TireTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Tire("Goodyear Eagle F1", 1000, 255, 30, -17.0));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = tire.toJson();
+        assertEquals("Tire", json.getString("category"));
+        assertEquals("Michelin Pilot Sport 4S", json.getString("name"));
+        assertEquals(1400, json.getInt("cost"));
+        assertEquals(245, json.getInt("widthMm"));
+        assertEquals(35, json.getInt("aspectPercent"));
+        assertEquals(19.0, json.getDouble("rimDiameterIn"));
+    }
+
 }

@@ -1,21 +1,41 @@
 {
     "activeBuild": {
         "name": "MyBuild",
-        "parts": [{
+        "parts": [
+            {
+                "widthIn": 1,
+                "cost": 1,
+                "offsetMm": 1,
+                "diameterIn": 1,
+                "name": "a",
+                "category": "Wheel"
+            },
+            {
+                "cost": 1,
+                "rimDiameterIn": 1,
+                "aspectPercent": 1,
+                "name": "b",
+                "category": "Tire",
+                "widthMm": 1
+            }
+        ]
+    },
+    "inventory": [
+        {
             "widthIn": 1,
             "cost": 1,
             "offsetMm": 1,
             "diameterIn": 1,
             "name": "a",
             "category": "Wheel"
-        }]
-    },
-    "inventory": [{
-        "widthIn": 1,
-        "cost": 1,
-        "offsetMm": 1,
-        "diameterIn": 1,
-        "name": "a",
-        "category": "Wheel"
-    }]
+        },
+        {
+            "cost": 1,
+            "rimDiameterIn": 1,
+            "aspectPercent": 1,
+            "name": "b",
+            "category": "Tire",
+            "widthMm": 1
+        }
+    ]
 }

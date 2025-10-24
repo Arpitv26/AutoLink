@@ -533,6 +533,10 @@ public class AutoLinkApp {
         System.out.println(label + ": " + name + " (cost " + cost + ")");
     }
 
+
+    //                                       data persistence
+    //-------------------------------------------------------------------------------------------------
+
     // EFFECTS: saves the current build and inventory to file
     private void saveAutoLink() {
         try {

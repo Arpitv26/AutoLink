@@ -49,4 +49,15 @@ public class SuspensionTest {
         assertThrows(IllegalArgumentException.class, () ->
         new Suspension("Tein Flex Z", 1100, "coilover", -10));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = suspension.toJson();
+        assertEquals("Suspension", json.getString("category"));
+        assertEquals("BC Racing Coilovers", json.getString("name"));
+        assertEquals(1200, json.getInt("cost"));
+        assertEquals("coilover", json.getString("type"));
+        assertEquals(35, json.getInt("dropMm"));
+    }
+
 }

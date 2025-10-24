@@ -50,4 +50,16 @@ public class EngineTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Engine("LS3", 9000, "V8", 430, -6.2));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = engine.toJson();
+        assertEquals("Engine", json.getString("category"));
+        assertEquals("2JZ-GTE", json.getString("name"));
+        assertEquals(12000, json.getInt("cost"));
+        assertEquals("Inline-6", json.getString("type"));
+        assertEquals(320, json.getInt("horsepower"));
+        assertEquals(3.0, json.getDouble("displacement"));
+    }
+
 }

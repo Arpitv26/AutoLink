@@ -4,6 +4,9 @@ import model.*;
 import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -96,6 +99,50 @@ public class JsonWriterTest {
         }
     }
 
+    @Test
+    void testReaderAllPartTypes() {
+        try {
+            String json = """
+            {
+            "activeBuild": {
+                "name": "Full Build",
+                "parts": [
+                {"category":"Wheel","name":"TE37","cost":3000,"diameterIn":18,"widthIn":9,"offsetMm":22},
+                {"category":"Tire","name":"PS4S","cost":1400,"widthMm":245,"aspectPercent":35,"rimDiameterIn":19},
+                {"category":"Suspension","name":"KW","cost":2500,"type":"coilover","dropMm":30},
+                {"category":"Exhaust","name":"HKS","cost":950,"spec":"stainless"},
+                {"category":"Engine","name":"2JZ","cost":12000,"type":"I6","horsepower":320,"displacement":3.0},
+                {"category":"Transmission","name":"GR6","cost":8000,"type":"DCT","gears":6,"drive":"AWD"},
+                {"category":"Bumper","name":"Mugen","cost":1200,"type":"front","material":"cf","brand":"Mugen","style":"aggressive"},
+                {"category":"SideSkirts","name":"TRD","cost":650,"material":"fg","brand":"TRD"},
+                {"category":"Diffuser","name":"APR","cost":950,"material":"cf","brand":"APR","functional":true},
+                {"category":"Spoiler","name":"Voltex","cost":1800,"material":"cf","style":"GT","heightMm":320.5},
+                {"category":"Lights","name":"Valenti","cost":800,"type":"taillight","brand":"Valenti","lightType":"LED","detail":"smoked"}
+                ]
+            },
+            "inventory": []
+            }
+            """;
 
+
+            Path path = Paths.get("./data/testReaderAllPartTypes.json");
+            Files.writeString(path, json);
+
+            JsonReader reader = new JsonReader(path.toString());
+            BuildData data = reader.read();
+
+            Build build = data.getBuild();
+            assertEquals("Full Build", build.getName());
+            assertEquals(11, build.getParts().size());
+
+            assertEquals("TE37", build.getParts().get(0).getName());
+            assertEquals("2JZ", build.getParts().get(4).getName());
+            assertEquals("Voltex", build.getParts().get(9).getName());
+            assertEquals("Valenti", build.getParts().get(10).getName());
+
+        } catch (IOException e) {
+            fail("Should not throw IOException");
+        }
+    }
 
 }

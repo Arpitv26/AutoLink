@@ -42,4 +42,14 @@ public class ExhaustTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new Exhaust("Tomei Type-R", -300, "Track edition"));
     }
+
+    @Test
+    public void testToJson() {
+        org.json.JSONObject json = exhaust.toJson();
+        assertEquals("Exhaust", json.getString("category"));
+        assertEquals("HKS Hi-Power", json.getString("name"));
+        assertEquals(950, json.getInt("cost"));
+        assertEquals("Stainless steel performance exhaust", json.getString("spec"));
+    }
+
 }

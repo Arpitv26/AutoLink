@@ -48,4 +48,13 @@ public class PartTest {
         assertThrows(IllegalArgumentException.class, () ->
                 new RandomPart("Invalid Part", -100));
     }
+
+    @Test
+    public void testToJsonInPart() {
+        org.json.JSONObject json = testPart.toJson();
+        assertEquals("RandomPart", json.getString("category"));
+        assertEquals("Generic Part", json.getString("name"));
+        assertEquals(500, json.getInt("cost"));
+    }
+
 }
