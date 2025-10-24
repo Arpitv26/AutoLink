@@ -4,6 +4,7 @@ import java.util.*;
 
 
 
+
 // Represents the user's single active build.
 // Holds an inventory of parts, active selections, and fitment defaults and baseline
 // This class is mutable
@@ -655,6 +656,7 @@ public class Build {
     public List<Part> getParts() {
         return new ArrayList<>(inventory);
     }
+
 
 
 }

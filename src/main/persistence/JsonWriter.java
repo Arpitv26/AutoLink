@@ -57,27 +57,21 @@ public class JsonWriter {
 
         JSONArray partsArray = new JSONArray();
         for (Part p : build.getParts()) {
-            JSONObject partJson = new JSONObject();
-            partJson.put("name", p.getName());
-            partJson.put("cost", p.getCost());
-            partsArray.put(partJson);
+            partsArray.put(p.toJson());
         }
         json.put("parts", partsArray);
 
         return json;
     }
 
-    // EFFECTS: converts list of parts (inventory) to JSON array
+    // EFFECTS: converts list of parts to JSON array
     private JSONArray inventoryToJson(List<Part> inventory) {
         JSONArray array = new JSONArray();
-
         for (Part p : inventory) {
-            JSONObject partJson = new JSONObject();
-            partJson.put("name", p.getName());
-            partJson.put("cost", p.getCost());
-            array.put(partJson);
+            array.put(p.toJson());
         }
-
         return array;
     }
+
+
 }

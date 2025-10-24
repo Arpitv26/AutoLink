@@ -35,4 +35,15 @@ public class Suspension extends Part {
     public int getDropMm() {
         return dropMm;
     }
+
+    // EFFECTS: returns this suspension as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("type", type);
+        json.put("dropMm", dropMm);
+        return json;
+    }
+
+
 }

@@ -1,0 +1,21 @@
+{
+    "activeBuild": {
+        "name": "MyBuild",
+        "parts": [{
+            "widthIn": 1,
+            "cost": 1,
+            "offsetMm": 1,
+            "diameterIn": 1,
+            "name": "a",
+            "category": "Wheel"
+        }]
+    },
+    "inventory": [{
+        "widthIn": 1,
+        "cost": 1,
+        "offsetMm": 1,
+        "diameterIn": 1,
+        "name": "a",
+        "category": "Wheel"
+    }]
+}

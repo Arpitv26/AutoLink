@@ -1,11 +1,17 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 import model.*;
+import persistence.BuildData;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 
 // representation of the console based UI interface for AutoLink through user interaction with console-based inputs
 // follows phase 1 user stories where user can add, remove, 
@@ -16,6 +22,9 @@ public class AutoLinkApp {
     private Scanner sc;
     private Build build;
     private boolean running;
+    private static final String JSON_STORE = "./data/autolink.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // MODIFIES: this
     // EFFECTS: constructs a new AutoLinkApp with an empty Build and initializes sc 
@@ -23,15 +32,24 @@ public class AutoLinkApp {
     public AutoLinkApp() {
         build = new Build();
         sc = new Scanner(System.in);
-        running = true;   
+        running = true;
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // MODIFIES: this
     // EFFECTS: runs the main application and displays initial message and
     //          loop until the user chooses to quit (if user seletess q for quit)
     public void run() {
-        System.out.println("Weldocme to AutoLink!");
+
+        System.out.println("Welcome to AutoLink!");
         divider();
+        
+        System.out.println("Would you like to load your previous build and inventory from file? (y/n) ");
+        String loadBuild = readInput();
+        if (loadBuild.equalsIgnoreCase("y")) {
+            loadAutoLink();
+        }
 
         //loop for the game with ending condition as user input = q which would turn running to false
         while (running) {
@@ -322,6 +340,12 @@ public class AutoLinkApp {
     private void quit() {
         running = false;
         divider();
+        System.out.println("Would you like to save your current build and inventory before quitting? (y/n)");
+        String saveBuild = readInput();
+        if (saveBuild.equalsIgnoreCase("y")) {
+            saveAutoLink();
+        }
+        divider();
         System.out.println("Thank you for using AutoLink, where ideas meet creation!");
         divider();
     }
@@ -503,9 +527,39 @@ public class AutoLinkApp {
         if (p == null) {
             cost = "-";
         } else {
-            cost = p.getName();
+            cost = String.valueOf(p.getCost());
         }
 
         System.out.println(label + ": " + name + " (cost " + cost + ")");
     }
+
+    // EFFECTS: saves the current build and inventory to file
+    private void saveAutoLink() {
+        try {
+            BuildData data = new BuildData(build, build.listAllParts());
+            jsonWriter.open();
+            jsonWriter.write(data);
+            jsonWriter.close();
+            System.out.println("Saved your AutoLink data to " + JSON_STORE);
+            divider();
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+            divider();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads build and inventory data from file, replacing current session data
+    private void loadAutoLink() {
+        try {
+            BuildData data = jsonReader.read();
+            build = data.getBuild();
+            System.out.println("Loaded build and inventory from " + JSON_STORE);
+            divider();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+            divider();
+        }
+    }
+
 }

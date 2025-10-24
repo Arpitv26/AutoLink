@@ -45,4 +45,15 @@ public class Tire extends Part {
     public double getRimDiameterIn() {
         return rimDiameterIn;
     }
+
+    // EFFECTS: returns this tire as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("widthMm", widthMm);
+        json.put("aspectPercent", aspectPercent);
+        json.put("rimDiameterIn", rimDiameterIn);
+        return json;
+    }
+
 }

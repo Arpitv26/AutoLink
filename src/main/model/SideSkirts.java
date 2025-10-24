@@ -31,4 +31,14 @@ public class SideSkirts extends Part {
         return brand;
     }
 
+    // EFFECTS: returns this side skirts component as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("material", material);
+        json.put("brand", brand);
+        return json;
+    }
+
+
 }

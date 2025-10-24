@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 /**
  * Represents a bumper part that can be either front or back
  * Immutable once constructed.
@@ -46,4 +48,16 @@ public class Bumper extends Part {
     public String getStyle() {
         return style;
     }
+
+    // EFFECTS: returns this bumper as a JSON object including all its fields
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("type", type);
+        json.put("material", material);
+        json.put("brand", brand);
+        json.put("style", style);
+        return json;
+    }
+
 }

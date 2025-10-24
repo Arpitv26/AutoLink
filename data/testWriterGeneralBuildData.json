@@ -4,22 +4,26 @@
         "parts": [
             {
                 "cost": 800,
-                "name": "BBS RS"
+                "name": "BBS RS",
+                "category": "PartStub"
             },
             {
                 "cost": 300,
-                "name": "TRD Spoiler"
+                "name": "TRD Spoiler",
+                "category": "PartStub"
             }
         ]
     },
     "inventory": [
         {
             "cost": 400,
-            "name": "OEM Bumper"
+            "name": "OEM Bumper",
+            "category": "PartStub"
         },
         {
             "cost": 250,
-            "name": "Mishimoto Radiator"
+            "name": "Mishimoto Radiator",
+            "category": "PartStub"
         }
     ]
 }

@@ -21,4 +21,14 @@ public class Exhaust extends Part {
     public String getSpec() {
         return spec; 
     }
+
+    // EFFECTS: returns this exhaust as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("spec", spec);
+        return json;
+    }
+
+
 }

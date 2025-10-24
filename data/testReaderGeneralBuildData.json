@@ -1,25 +1,40 @@
 {
-  "activeBuild": {
-    "name": "Supra Build",
-    "parts": [
-      {
-        "name": "BBS RS",
-        "cost": 800
-      },
-      {
-        "name": "TRD Spoiler",
-        "cost": 300
-      }
-    ]
-  },
-  "inventory": [
-    {
-      "name": "OEM Bumper",
-      "cost": 400
+    "activeBuild": {
+        "name": "Supra Build",
+        "parts": [
+            {
+                "category": "Wheel",
+                "name": "BBS RS",
+                "cost": 800,
+                "diameterIn": 17.0,
+                "widthIn": 8.0,
+                "offsetMm": 25
+            },
+            {
+                "category": "Spoiler",
+                "name": "TRD Spoiler",
+                "cost": 300,
+                "material": "Carbon Fiber",
+                "style": "Ducktail",
+                "heightMm": 120.0
+            }
+        ]
     },
-    {
-      "name": "Mishimoto Radiator",
-      "cost": 250
-    }
-  ]
+    "inventory": [
+        {
+            "category": "Bumper",
+            "name": "OEM Bumper",
+            "cost": 400,
+            "type": "Front",
+            "material": "ABS Plastic",
+            "brand": "Toyota",
+            "style": "Stock"
+        },
+        {
+            "category": "Exhaust",
+            "name": "Mishimoto Radiator",
+            "cost": 250,
+            "spec": "Aluminum High-Flow"
+        }
+    ]
 }

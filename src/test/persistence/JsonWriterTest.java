@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-// Citation: Modelled after the JsonWriterTest class in the WorkRoom example provided in the CPSC 210 Term Project Task 3
+// Citation: Modelled after the JsonWriterTest class in example provided in the CPSC 210 Term Project Task 3
 
 // Tests for JsonWriter class
 public class JsonWriterTest {
@@ -89,5 +89,13 @@ public class JsonWriterTest {
         public PartStub(String name, int cost) {
             super(name, cost);
         }
+        
+        @Override
+        public org.json.JSONObject toJson() {
+            return super.toJson();
+        }
     }
+
+
+
 }

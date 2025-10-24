@@ -1,7 +1,7 @@
 {
-  "activeBuild": {
-    "name": "Empty Build",
-    "parts": []
-  },
-  "inventory": []
+    "activeBuild": {
+        "name": "Empty Build",
+        "parts": []
+    },
+    "inventory": []
 }

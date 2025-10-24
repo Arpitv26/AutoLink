@@ -40,4 +40,15 @@ public class Spoiler extends Part {
     public double getHeightMm() {
         return heightMm;
     } 
+
+    // EFFECTS: returns this spoiler as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("material", material);
+        json.put("style", style);
+        json.put("heightMm", heightMm);
+        return json;
+    }
+
 }

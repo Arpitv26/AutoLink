@@ -47,4 +47,16 @@ public class Lights extends Part {
     public String getDetail() {
         return detail;  
     }
+
+    // EFFECTS: returns this lights component as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("type", type);
+        json.put("brand", brand);
+        json.put("lightType", lightType);
+        json.put("detail", detail);
+        return json;
+    }
+
 }

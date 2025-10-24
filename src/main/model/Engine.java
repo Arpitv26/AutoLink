@@ -44,4 +44,15 @@ public class Engine extends Part {
     public double getDisplacement() {
         return displacement; 
     }
+
+    // EFFECTS: returns this engine as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("type", type);
+        json.put("horsepower", horsepower);
+        json.put("displacement", displacement);
+        return json;
+    }
+
 }

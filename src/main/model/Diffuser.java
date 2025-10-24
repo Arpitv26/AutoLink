@@ -37,4 +37,15 @@ public class Diffuser extends Part {
     public boolean isFunctional() {
         return functional;
     }
+
+    // EFFECTS: returns this diffuser as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("material", material);
+        json.put("brand", brand);
+        json.put("functional", functional);
+        return json;
+    }
+
 }

@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 /**
  * Represents a generic part that can be added to a build.
  * Each part has a user-given unique name and a cost in CAD.
  * This class is immutable.
  */
 
-public abstract class Part {
+public abstract class Part implements Writable {
 
     private final String name;
     private final int cost;     
@@ -44,6 +48,16 @@ public abstract class Part {
         if (value == null || value.trim().isEmpty()) {
             throw new IllegalArgumentException(fieldName + " cannot be null or empty!");
         }
+    }
+
+    // EFFECTS: returns basic JSON with category, name, cost
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("category", getClass().getSimpleName());
+        json.put("name", name);
+        json.put("cost", cost);
+        return json;
     }
 
 }

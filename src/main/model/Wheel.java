@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 /**
  * Represents a wheel specification.
  * Immutable once constructed.
@@ -40,4 +42,14 @@ public class Wheel extends Part {
     public int getOffsetMm() {
         return offsetMm;
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = super.toJson();
+        json.put("diameterIn", diameterIn);
+        json.put("widthIn", widthIn);
+        json.put("offsetMm", offsetMm);
+        return json;
+    }
+
 }

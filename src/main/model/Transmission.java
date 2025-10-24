@@ -41,4 +41,16 @@ public class Transmission extends Part {
     public String getDrive() {
         return drive;
     }
+
+    // EFFECTS: returns this transmission as a JSON object including all its fields
+    @Override
+    public org.json.JSONObject toJson() {
+        org.json.JSONObject json = super.toJson();
+        json.put("type", type);
+        json.put("gears", gears);
+        json.put("drive", drive);
+        return json;
+    }
+
+
 }

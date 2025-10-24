@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-// Citation: Modelled after the JsonReaderTest class in the WorkRoom example provided in the CPSC 210 Term Project Task 3
+// Citation: Modelled after the JsonReaderTest class in the example provided in the CPSC 210 Term Project Task 3
 
 // Tests for JsonReader class
 public class JsonReaderTest {
@@ -19,6 +19,7 @@ public class JsonReaderTest {
             BuildData data = reader.read();
             fail("IOException expected");
         } catch (IOException e) {
+            System.out.println("error");
         }
     }
 
