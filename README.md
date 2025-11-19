@@ -29,3 +29,17 @@ Why have I chosen to do this specific project? I have always been a car enthusia
 - As a user, I want to have the reminder and option to save my current build and its parts to a file everytime I select the quit option from my application main menu
 
 - As a user, when I start the application I want to be given the option to load previous build and its parts from file
+
+## Instructions for End User
+
+- You can view the panel that displays the parts that have already been added to the build by running the GUI version of AutoLink and looking at the main window. In the center of the window there is a panel labelled **"Parts in Current Build"** that shows a list of all parts currently stored in the active build, including their name, category, and cost.
+
+- You can generate the first required action related to the user story "adding multiple parts to a build" by clicking the **"Add Part"** button at the top of the main window. This opens an input form where you choose a category (wheel, tire, suspension, exhaust, engine, transmission, bumper, sideskirts, diffuser, spoiler, or lights) and enter the details (such as name, cost, and other specs). When you click **"OK"**, the new part is created, added to the build's inventory, and the **"Parts in Current Build"** list is updated.
+
+- You can generate the second required action related to the user story "adding multiple parts to a build" by using the **category filter** located above the parts list. Select a category (for example, "Wheel" or "Tire") from the drop-down box and click the **"Filter"** button to display only the parts of that category in the **"Parts in Current Build"** panel. To see all parts again, choose **"All"** in the drop-down and click **"Filter"** once more.
+
+- You can locate my visual component by looking at the top of the main AutoLink window. There is an image displayed there that serves as the AutoLink logo. This logo image is always visible while the GUI is open and provides a simple visual element in addition to the text-based lists and buttons.
+
+- You can save the state of my application by using the menu bar at the top of the GUI window. Click **"File" → "Save"** to write your current build and its parts inventory to the JSON file used by AutoLink. After saving, you can close the application and later reload your work from the same file.
+
+- You can reload the state of my application by using the menu bar at the top of the GUI window. Click **"File" → "Load"** to read the previously saved build and parts inventory from the JSON file. The **"Parts in Current Build"** panel will update to show the loaded parts, and your active build state will be restored in the GUI.

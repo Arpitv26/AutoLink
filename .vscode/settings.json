@@ -1,11 +1,13 @@
 {
     "java.project.sourcePaths": [
-        "src/main",
-        "src/test"
+        "src\\main",
+        "src\\test"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "c:\\Users\\arpit\\OneDrive\\Desktop\\Project\\project-x3e5c-2\\lib\\json-20250517.jar",
+        "c:\\Users\\arpit\\OneDrive\\Desktop\\Project\\project-x3e5c-2\\lib\\junit-platform-console-standalone-1.10.2.jar",
+        "c:\\Users\\arpit\\OneDrive\\Desktop\\Project\\project-x3e5c-2\\lib\\JacocoExcludeFromReportAnnotation.jar"
     ],
     "java.checkstyle.configuration": "${workspaceFolder}/checkstyle.xml",
     "java.checkstyle.version": "10.2"

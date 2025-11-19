@@ -331,55 +331,6 @@ public class Build {
     }
 
 
-    //                                              Baseline + fitment
-    // -----------------------------------------------------------------------------------------------------------------
-
-/** will implement this later on 
-    // REQUIRES: widthMm > 0 and aspectPct > 0 and rimIn > 0
-    // MODIFIES: this
-    // EFFECTS: sets the baseline rolling diameter in millimeters using the given tire size
-    public void setBaselineTire(int widthMm, int aspectPct, double rimIn) {
-        if (widthMm <= 0 || aspectPct <= 0 || rimIn <= 0) {
-            throw new IllegalArgumentException();
-        }
-        referenceOdMm = computeRollingDiameterMm(widthMm, aspectPct, rimIn);
-    }
-
-    // EFFECTS: returns a list of warnings for the current active selections:
-    //          - warns "Set baseline tire before running fitment check" if baseline not set
-    //          - warns "Set active wheel and tire to run fitment check" if either
-    //            activeWheel or activeTire is null
-    //          - warns "Wheel and tire diameters do not match" if tire.rimDiameterIn !=
-    //            wheel.diameterIn
-    //          - warns "Rolling diameter difference exceeds ±3%" if delta vs. baseline >
-    //            threshold
-        ListString warnings = new ArrayList();
-        if (referenceOdMm == null) {
-            warnings.add("Set baseline tire before running fitment check");
-        }
-        if (activeWheel == null || activeTire == null) {
-            warnings.add("Set active wheel and tire to run fitment check");
-            return warnings;
-        }
-        double wheelDiaIn = activeWheel.getDiameterIn();
-        double tireRimIn = activeTire.getRimDiameterIn();
-        if (Math.abs(wheelDiaIn - tireRimIn) > 1e-6) {
-            warnings.add("Wheel and tire diameters do not match");
-        }
-        if (referenceOdMm != null) {
-            int w = activeTire.getWidthMm();
-            int a = activeTire.getAspectPercent();
-            double r = activeTire.getRimDiameterIn();
-            double currentOd = computeRollingDiameterMm(w, a, r);
-            double deltaPct = Math.abs((currentOd - referenceOdMm) / referenceOdMm) * 100.0;
-            if (deltaPct > rollingDeltaThresholdPct) {
-                warnings.add("Rolling diameter difference exceeds ±3%");
-            }
-        }
-        return warnings;
-    }
-**/
-
 
     //                                                  Summary
     // -----------------------------------------------------------------------------------------------------------------
