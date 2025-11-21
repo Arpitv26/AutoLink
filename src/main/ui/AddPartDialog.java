@@ -5,6 +5,8 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 // Represents a modal dialog that allows the user to enter details for a new Part.
 // The dialog lets the user choose a part category (Wheel, Tire, Suspension, Exhaust,

@@ -1,5 +1,7 @@
 package ui;
 
+import javax.swing.SwingUtilities;
+
 import ca.ubc.cs.ExcludeFromJacocoGeneratedReport;
 
 // Main clas that runs the AutoLink application and starts the UI
