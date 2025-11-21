@@ -8,6 +8,9 @@ public class Main {
 
     // EFFECT: launches the AutoLinkApp
     public static void main(String[] args) throws Exception {
-        new AutoLinkApp().run();
+        SwingUtilities.invokeLater(() -> {
+            AutoLinkGui gui = new AutoLinkGui();
+            gui.showGui();
+        });
     }  
 }
