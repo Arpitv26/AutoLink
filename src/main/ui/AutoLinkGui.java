@@ -45,8 +45,26 @@ public class AutoLinkGui {
     //           JSON reader/writer, creates all Swing components, and prepares
     //           the main window (but does not necessarily make it visible yet).
     public AutoLinkGui() {
-        // TODO: initialize build, jsonReader/jsonWriter, and call helper methods
-        //       to construct the frame and components.
+         // initialize the model and persistence
+        build = new Build();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
+        // initialize Swing components
+        frame = new JFrame("AutoLink");
+        partsListModel = new DefaultListModel<>();
+        partsList = new JList<>(partsListModel);
+        filterComboBox = new JComboBox<>(new String[]{
+                "All", "Wheel", "Tire", "Suspension", "Exhaust", "Engine",
+                "Transmission", "Bumper", "SideSkirts", "Diffuser", "Spoiler", "Lights"
+        });
+        logoLabel = new JLabel();
+
+        // build the frame + UI
+        initFrame();
+
+        // populate the list (build is empty at start, so this just clears)
+        refreshPartsList();
     }
 
     // REQUIRES: this object has been constructed.
@@ -55,7 +73,14 @@ public class AutoLinkGui {
     //           close operation, layout) and attaches the main content panel
     //           and menu bar to the frame.
     private void initFrame() {
-        // TODO: set up JFrame and attach menu bar and main panel
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        frame.setLayout(new BorderLayout());
+
+        initMenuBar();      // File → Load / Save / Quit
+        initMainPanel();    // logo + (controls + list)
+
+        frame.setLocationRelativeTo(null); // center on screen
     }
 
     // REQUIRES: frame != null
@@ -64,7 +89,25 @@ public class AutoLinkGui {
     //           "File" menu items for Load, Save, and Quit. Wires menu items to
     //           the appropriate handler methods (handleLoad, handleSave, handleQuit).
     private void initMenuBar() {
-        // TODO: create JMenuBar, add File menu, add items and listeners
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+
+        JMenuItem loadItem = new JMenuItem("Load");
+        loadItem.addActionListener(e -> handleLoad());
+
+        JMenuItem saveItem = new JMenuItem("Save");
+        saveItem.addActionListener(e -> handleSave());
+
+        JMenuItem quitItem = new JMenuItem("Quit");
+        quitItem.addActionListener(e -> handleQuit());
+
+        fileMenu.add(loadItem);
+        fileMenu.add(saveItem);
+        fileMenu.addSeparator();
+        fileMenu.add(quitItem);
+
+        menuBar.add(fileMenu);
+        frame.setJMenuBar(menuBar);
     }
 
     // REQUIRES: frame != null
@@ -75,7 +118,40 @@ public class AutoLinkGui {
     //           - controls above the parts list for adding and filtering parts.
     //           Adds this content panel to the frame.
     private void initMainPanel() {
-        // TODO: create panels, list, filter controls, and logo label
+       JPanel mainPanel = new JPanel(new BorderLayout());
+
+        // TOP: logo image
+        loadLogoImage();  // try to load image
+        JLabel topLogo = logoLabel;
+        topLogo.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(topLogo, BorderLayout.NORTH);
+
+        // CENTER panel for controls + parts list
+        JPanel centerPanel = new JPanel(new BorderLayout());
+
+        // control row
+        JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        JButton addButton = new JButton("Add Part");
+        addButton.addActionListener(e -> handleAddPart());
+
+        JButton filterButton = new JButton("Apply Filter");
+        filterButton.addActionListener(e -> handleFilter());
+
+        controls.add(new JLabel("Filter:"));
+        controls.add(filterComboBox);
+        controls.add(filterButton);
+        controls.add(addButton);
+
+        centerPanel.add(controls, BorderLayout.NORTH);
+
+        // parts list scroll panel
+        JScrollPane scrollPane = new JScrollPane(partsList);
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+        frame.add(mainPanel, BorderLayout.CENTER);
     }
 
     // REQUIRES: build != null, partsListModel != null
@@ -84,7 +160,12 @@ public class AutoLinkGui {
     //           of all parts currently in the build's inventory. Each list entry
     //           includes at least the part name, category, and cost.
     private void refreshPartsList() {
-        // TODO: read parts from build and populate partsListModel
+        partsListModel.clear();
+
+        List<Part> parts = build.listAllParts();
+        for (Part p : parts) {
+            partsListModel.addElement(formatPartForDisplay(p));
+        }
     }
 
     // REQUIRES: build != null
@@ -95,7 +176,32 @@ public class AutoLinkGui {
     //           adds it to the build, and refreshes the parts list. If the user
     //           cancels or enters invalid data, no changes are made to the build.
     private void handleAddPart() {
-        // TODO: open a dialog, collect input, create Part, build.addPart(...), refresh list
+        AddPartDialog dialog = new AddPartDialog(frame);
+        dialog.showDialog();
+        Part newPart = dialog.getResultPart();
+
+        if (newPart != null) {
+            try {
+                boolean added = build.addPart(newPart);
+                if (!added) {
+                    JOptionPane.showMessageDialog(
+                            frame,
+                            "A part with that name already exists in the build.",
+                            "Duplicate Part Name",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                } else {
+                    refreshPartsList();
+                }
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        e.getMessage(),
+                        "Error Adding Part",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
     }
 
     // REQUIRES: build != null, filterComboBox != null, partsListModel != null
@@ -105,7 +211,23 @@ public class AutoLinkGui {
     //           Otherwise, displays only parts whose runtime category
     //           (e.g., Wheel, Tire, etc.) matches the selected category.
     private void handleFilter() {
-        // TODO: inspect selected category and update list contents
+        String selected = (String) filterComboBox.getSelectedItem();
+        partsListModel.clear();
+
+        List<Part> parts = build.listAllParts();
+
+        if (selected == null || "All".equals(selected)) {
+            for (Part p : parts) {
+                partsListModel.addElement(formatPartForDisplay(p));
+            }
+        } else {
+            for (Part p : parts) {
+                String category = p.getClass().getSimpleName();
+                if (category.equals(selected)) {
+                    partsListModel.addElement(formatPartForDisplay(p));
+                }
+            }
+        }
     }
 
     // REQUIRES: jsonWriter != null
@@ -114,7 +236,26 @@ public class AutoLinkGui {
     //           using JsonWriter. If the file cannot be opened, shows an error
     //           dialog and leaves the current build unchanged.
     private void handleSave() {
-        //TODO: use JsonWriter to save BuildData(build, build.getParts()/listAllParts())
+       try {
+            BuildData data = new BuildData(build, build.getParts());
+            jsonWriter.open();
+            jsonWriter.write(data);
+            jsonWriter.close();
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Saved AutoLink data to " + JSON_STORE,
+                    "Save Successful",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Unable to write to file: " + JSON_STORE,
+                    "Save Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     // REQUIRES: jsonReader != null
@@ -125,7 +266,25 @@ public class AutoLinkGui {
     //           (e.g., file not found or invalid JSON), shows an error dialog
     //           and leaves the current build unchanged.
     private void handleLoad() {
-        // TODO: use JsonReader.read(), update build, refresh list
+        try {
+            BuildData data = jsonReader.read();
+            build = data.getBuild();
+            refreshPartsList();
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Loaded AutoLink data from " + JSON_STORE,
+                    "Load Successful",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Unable to read from file: " + JSON_STORE,
+                    "Load Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     // REQUIRES: logoLabel != null
@@ -135,14 +294,21 @@ public class AutoLinkGui {
     //           on logoLabel. If the image cannot be loaded, logoLabel is left
     //           with a simple text fallback.
     private void loadLogoImage() {
-        // TODO: load ImageIcon and assign to logoLabel (or set text on failure)
+        ImageIcon icon = new ImageIcon("./data/autolink_logo.png");
+
+        if (icon.getIconWidth() == -1) {
+            logoLabel.setText("AutoLink");
+            logoLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        } else {
+            logoLabel.setIcon(icon);
+        }
     }
 
     // REQUIRES: this object has been constructed and initFrame has been called.
     // MODIFIES: this, frame
     // EFFECTS:  makes the main GUI window visible to the user.
     public void showGui() {
-        // TODO: call frame.setVisible(true);
+        frame.setVisible(true);
     }
 
     // REQUIRES: frame != null
@@ -151,6 +317,25 @@ public class AutoLinkGui {
     //           In the future, this method could be extended to prompt the user
     //           to save before exiting.
     private void handleQuit() {
-        // TODO: dispose of frame and possibly exit
+        int choice = JOptionPane.showConfirmDialog(
+                frame,
+                "Are you sure you want to quit AutoLink?",
+                "Confirm Quit",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (choice == JOptionPane.YES_OPTION) {
+            frame.dispose();
+        }
     }
+
+    // REQUIRES: p != null
+    // MODIFIES: nothing
+    // EFFECTS:  returns a simple string representation of the part including
+    //           its name, category, and cost in CAD.
+    private String formatPartForDisplay(Part p) {
+        String category = p.getClass().getSimpleName();
+        return p.getName() + " (" + category + ") - $" + p.getCost();
+    }
+
 }
