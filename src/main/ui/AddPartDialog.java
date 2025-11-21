@@ -81,8 +81,24 @@ public class AddPartDialog extends JDialog {
     private void buildUi() {
         setLayout(new BorderLayout(10, 10));
 
-        // top/common fields
-        JPanel commonPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        JPanel commonPanel = buildCommonFieldsPanel();
+        categoryFieldsPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+
+        JPanel buttonPanel = buildButtonPanel();
+        JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
+
+        centerPanel.add(commonPanel, BorderLayout.NORTH);
+        centerPanel.add(categoryFieldsPanel, BorderLayout.CENTER);
+
+        add(centerPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        addListeners();
+        rebuildCategoryFields();
+    }
+
+    private JPanel buildCommonFieldsPanel() {
+        JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
 
         categoryComboBox = new JComboBox<>(new String[]{
                 "Wheel", "Tire", "Suspension", "Exhaust", "Engine",
@@ -92,40 +108,33 @@ public class AddPartDialog extends JDialog {
         nameField = new JTextField();
         costField = new JTextField();
 
-        commonPanel.add(new JLabel("Category:"));
-        commonPanel.add(categoryComboBox);
-        commonPanel.add(new JLabel("Name:"));
-        commonPanel.add(nameField);
-        commonPanel.add(new JLabel("Cost (CAD):"));
-        commonPanel.add(costField);
+        panel.add(new JLabel("Category:"));
+        panel.add(categoryComboBox);
+        panel.add(new JLabel("Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Cost (CAD):"));
+        panel.add(costField);
 
-        // panel for category-specific fields
-        categoryFieldsPanel = new JPanel();
-        categoryFieldsPanel.setLayout(new GridLayout(0, 2, 5, 5));
+        return panel;
+    }
 
-        // buttons
+    //helpers for the method above
+    private JPanel buildButtonPanel() {
         okButton = new JButton("OK");
         cancelButton = new JButton("Cancel");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(okButton);
-        buttonPanel.add(cancelButton);
 
-        // center panel: common fields on top, category fields below
-        JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
-        centerPanel.add(commonPanel, BorderLayout.NORTH);
-        centerPanel.add(categoryFieldsPanel, BorderLayout.CENTER);
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panel.add(okButton);
+        panel.add(cancelButton);
+        return panel;
+    }
 
-        add(centerPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        // listeners
+    private void addListeners() {
         categoryComboBox.addActionListener(e -> rebuildCategoryFields());
         okButton.addActionListener(e -> handleOk());
         cancelButton.addActionListener(e -> handleCancel());
-
-        // initial category-specific UI
-        rebuildCategoryFields();
     }
+
 
     // REQUIRES: categoryComboBox != null; categoryFieldsPanel != null
     // MODIFIES: this, categoryFieldsPanel
@@ -136,6 +145,7 @@ public class AddPartDialog extends JDialog {
     //           - Tire: width, aspectPercent, rimDiameterIn
     //           - Suspension: type, dropMm
     //           etc. Does not create or modify any Part instances.
+    @SuppressWarnings("methodlength")
     private void rebuildCategoryFields() {
         categoryFieldsPanel.removeAll();
         fieldMap.clear();
@@ -304,6 +314,7 @@ public class AddPartDialog extends JDialog {
     //           If any parse fails (e.g., number format) or if a Part
     //           constructor throws IllegalArgumentException, this method
     //           propagates the exception to the caller.
+    @SuppressWarnings("methodlength")
     private Part createPartFromInputs(String category, String name, int cost) {
         switch (category) {
             case "Wheel":
@@ -364,17 +375,16 @@ public class AddPartDialog extends JDialog {
                 return new Spoiler(name, cost, spMaterial, spStyle, heightMm);
 
             case "Lights":
-                String lType = getNonEmptyText(fieldMap.get("type"), "Type");
-                String lBrand = getNonEmptyText(fieldMap.get("brand"), "Brand");
+                String lightsType = getNonEmptyText(fieldMap.get("type"), "Type");
+                String lightsBrand = getNonEmptyText(fieldMap.get("brand"), "Brand");
                 String lightType = getNonEmptyText(fieldMap.get("lightType"), "Light type");
                 String detail = getNonEmptyText(fieldMap.get("detail"), "Detail");
-                return new Lights(name, cost, lType, lBrand, lightType, detail);
+                return new Lights(name, cost, lightsType, lightsBrand, lightType, detail);
 
             default:
                 throw new IllegalArgumentException("Unknown category: " + category);
         }
     }
-
 
     // helper: read non-empty string from a text field
     private String getNonEmptyText(JTextField field, String fieldName) {

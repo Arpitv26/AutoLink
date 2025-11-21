@@ -19,7 +19,7 @@ public class JsonReaderTest {
     void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
-            BuildData data = reader.read();
+            reader.read();
             fail("IOException expected");
         } catch (IOException e) {
             System.out.println("error");

@@ -66,20 +66,6 @@ public class PartsPanel extends JPanel {
         }
     }
 
-    // REQUIRES: currentParts != null (may be empty); partsListModel != null
-    // MODIFIES: this, partsListModel
-    // EFFECTS:  clears the list model and repopulates it with string
-    //           representations of all parts in currentParts, ignoring any
-    //           category filter. Each entry includes at least the part name,
-    //           category (simple class name), and cost.
-    private void refreshAllPartsInList() {
-        partsListModel.clear();
-        displayedParts.clear();
-        for (Part p : currentParts) {
-            partsListModel.addElement(formatPartForDisplay(p));
-        }
-    }
-
     // REQUIRES: parts != null; parts may be empty
     // MODIFIES: this, currentParts, partsListModel
     // EFFECTS:  replaces the cached list of parts with a defensive copy of
@@ -141,25 +127,8 @@ public class PartsPanel extends JPanel {
         partsListModel = new DefaultListModel<>();
         partsList = new JList<>(partsListModel);
 
-        filterComboBox = new JComboBox<>();
-        filterButton = new JButton("Apply Filter");
-
-        // set up categories
-        List<String> categories = new ArrayList<>();
-        categories.add("All");
-        categories.add("Wheel");
-        categories.add("Tire");
-        categories.add("Suspension");
-        categories.add("Exhaust");
-        categories.add("Engine");
-        categories.add("Transmission");
-        categories.add("Bumper");
-        categories.add("SideSkirts");
-        categories.add("Diffuser");
-        categories.add("Spoiler");
-        categories.add("Lights");
-        setFilterCategories(categories);
-
+        initFilterControls();
+        
         filterButton.addActionListener(e -> applyFilterFromSelection());
 
         JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -173,6 +142,31 @@ public class PartsPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
     }
+    
+    //helper for method above
+    private void initFilterControls() {
+        filterComboBox = new JComboBox<>();
+        filterButton = new JButton("Apply Filter");
+
+        List<String> categories = new ArrayList<>();
+        categories.add("All");
+        categories.add("Wheel");
+        categories.add("Tire");
+        categories.add("Suspension");
+        categories.add("Exhaust");
+        categories.add("Engine");
+        categories.add("Transmission");
+        categories.add("Bumper");
+        categories.add("SideSkirts");
+        categories.add("Diffuser");
+        categories.add("Spoiler");
+        categories.add("Lights");
+
+        setFilterCategories(categories);
+
+        filterButton.addActionListener(e -> applyFilterFromSelection());
+    }
+
 
     // REQUIRES: part != null
     // MODIFIES: nothing

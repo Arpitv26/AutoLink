@@ -116,16 +116,35 @@ public class AutoLinkGui {
     private void initMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // TOP: logo image
-        loadLogoImage();  // try to load image
+        addLogoToMainPanel(mainPanel);
+
+        JPanel centerPanel = buildCenterPanel();
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+        JPanel activePanel = buildActivePanel();
+        mainPanel.add(activePanel, BorderLayout.SOUTH);
+
+        frame.add(mainPanel, BorderLayout.CENTER);
+    }
+
+    //helper
+    private void addLogoToMainPanel(JPanel mainPanel) {
+        loadLogoImage();
         JLabel topLogo = logoLabel;
         topLogo.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(topLogo, BorderLayout.NORTH);
+    }
 
-        // CENTER panel for controls + parts panel
+    //helper
+    private JPanel buildCenterPanel() {
         JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(buildControlsPanel(), BorderLayout.NORTH);
+        centerPanel.add(partsPanel, BorderLayout.CENTER);
+        return centerPanel;
+    }
 
-        // control row – Add + Set Active + Clear Active
+    //helper
+    private JPanel buildControlsPanel() {
         JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JButton addButton = new JButton("Add Part");
@@ -141,14 +160,11 @@ public class AutoLinkGui {
         controls.add(setActiveButton);
         controls.add(clearActiveButton);
 
-        centerPanel.add(controls, BorderLayout.NORTH);
-
-        // PartsPanel (handles filter + list)
-        centerPanel.add(partsPanel, BorderLayout.CENTER);
-
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-
-        // BOTTOM: Active build summary
+        return controls;
+    }
+    
+    //helper
+    private JPanel buildActivePanel() {
         activeSummaryArea = new JTextArea(8, 50);
         activeSummaryArea.setEditable(false);
         activeSummaryArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -159,10 +175,9 @@ public class AutoLinkGui {
         activePanel.setBorder(BorderFactory.createTitledBorder("Current Active Build"));
         activePanel.add(activeScroll, BorderLayout.CENTER);
 
-        mainPanel.add(activePanel, BorderLayout.SOUTH);
-
-        frame.add(mainPanel, BorderLayout.CENTER);
+        return activePanel;
     }
+
 
     // REQUIRES: build != null, partsListModel != null
     // MODIFIES: this, partsListModel
@@ -190,22 +205,14 @@ public class AutoLinkGui {
             try {
                 boolean added = build.addPart(newPart);
                 if (!added) {
-                    JOptionPane.showMessageDialog(
-                            frame,
-                            "A part with that name already exists in the build.",
+                    JOptionPane.showMessageDialog(frame,"A part with that name already exists in the build.",
                             "Duplicate Part Name",
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                            JOptionPane.WARNING_MESSAGE);
                 } else {
                     refreshPartsList();
                 }
             } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(
-                        frame,
-                        e.getMessage(),
-                        "Error Adding Part",
-                        JOptionPane.ERROR_MESSAGE
-                );
+                JOptionPane.showMessageDialog(frame,e.getMessage(),"Error Adding Part",JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -217,7 +224,7 @@ public class AutoLinkGui {
     //           using JsonWriter. If the file cannot be opened, shows an error
     //           dialog and leaves the current build unchanged.
     private void handleSave() {
-       try {
+        try {
             BuildData data = new BuildData(build, build.getParts());
             jsonWriter.open();
             jsonWriter.write(data);
@@ -332,22 +339,14 @@ public class AutoLinkGui {
         try {
             boolean ok = build.replaceActivePart(categoryKey, selected.getName());
             if (!ok) {
-                JOptionPane.showMessageDialog(
-                        frame,
-                        "Could not set active part (unknown category or part not found).",
-                        "Set Active",
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(frame,
+                        "Could not set active part (unknown category or part not found).","Set Active",
+                        JOptionPane.WARNING_MESSAGE);
             } else {
                 refreshActiveBuildSummary();
             }
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    e.getMessage(),
-                    "Error Setting Active Part",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(frame,e.getMessage(),"Error Setting Active Part",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -356,12 +355,8 @@ public class AutoLinkGui {
     private void handleClearActiveFromSelection() {
         Part selected = partsPanel.getSelectedPart();
         if (selected == null) {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    "Please select a part whose category you want to clear.",
-                    "No Selection",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            JOptionPane.showMessageDialog(frame,"Please select a part whose category you want to clear.",
+                                   "No Selection",JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
@@ -370,22 +365,13 @@ public class AutoLinkGui {
         try {
             boolean ok = build.clearActive(categoryKey);
             if (!ok) {
-                JOptionPane.showMessageDialog(
-                        frame,
-                        "Unknown category: " + categoryKey,
-                        "Clear Active",
-                        JOptionPane.WARNING_MESSAGE
-                );
+                JOptionPane.showMessageDialog(frame,"Unknown category: " + categoryKey,"Clear Active",
+                                              JOptionPane.WARNING_MESSAGE);
             } else {
                 refreshActiveBuildSummary();
             }
         } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(
-                    frame,
-                    e.getMessage(),
-                    "Error Clearing Active Part",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(frame,e.getMessage(),"Error Clearing Active Part",JOptionPane.ERROR_MESSAGE);
         }
     }
 
