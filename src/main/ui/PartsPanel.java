@@ -30,8 +30,11 @@ public class PartsPanel extends JPanel {
     private JComboBox<String> filterComboBox;
     private JButton filterButton;
 
+
     // cached copy of all parts currently supplied by the GUI
     private List<Part> currentParts;
+    // parts currently displayed after applying the filter
+    private List<Part> displayedParts;
 
     // REQUIRES: this panel is created and used on the Swing event dispatch thread.
     // MODIFIES: this
@@ -43,6 +46,7 @@ public class PartsPanel extends JPanel {
     //           above the scrollable parts list.
     public PartsPanel() {
         currentParts = new ArrayList<>();
+        displayedParts = new ArrayList<>();
         buildUi();
     }
 
@@ -70,6 +74,7 @@ public class PartsPanel extends JPanel {
     //           category (simple class name), and cost.
     private void refreshAllPartsInList() {
         partsListModel.clear();
+        displayedParts.clear();
         for (Part p : currentParts) {
             partsListModel.addElement(formatPartForDisplay(p));
         }
@@ -104,16 +109,19 @@ public class PartsPanel extends JPanel {
                 : null;
 
         partsListModel.clear();
+        displayedParts.clear();
 
         if (selected == null || "All".equals(selected)) {
             for (Part p : currentParts) {
                 partsListModel.addElement(formatPartForDisplay(p));
+                displayedParts.add(p);
             }
         } else {
             for (Part p : currentParts) {
                 String category = p.getClass().getSimpleName();
                 if (category.equals(selected)) {
                     partsListModel.addElement(formatPartForDisplay(p));
+                    displayedParts.add(p);
                 }
             }
         }
@@ -173,5 +181,16 @@ public class PartsPanel extends JPanel {
     private String formatPartForDisplay(Part part) {
         String category = part.getClass().getSimpleName();
         return part.getName() + " (" + category + ") - $" + part.getCost();
+    }
+
+    // REQUIRES: this panel is visible; may return null if nothing is selected
+    // EFFECTS:  returns the Part corresponding to the currently selected row in
+    //           the list, or null if no row is selected.
+    public Part getSelectedPart() {
+        int index = partsList.getSelectedIndex();
+        if (index < 0 || index >= displayedParts.size()) {
+            return null;
+        }
+        return displayedParts.get(index);
     }
 }

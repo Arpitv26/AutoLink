@@ -36,6 +36,7 @@ public class AutoLinkGui {
     private JFrame frame;
     private JLabel logoLabel;
     private PartsPanel partsPanel;
+    private JTextArea activeSummaryArea;
 
 
     // REQUIRES: Swing must be initialized on the EDT if called from another GUI context.
@@ -59,6 +60,7 @@ public class AutoLinkGui {
 
         // populate the list (build is empty at start, so this just clears)
         refreshPartsList();
+        refreshActiveBuildSummary();
     }
 
     // REQUIRES: this object has been constructed.
@@ -123,13 +125,21 @@ public class AutoLinkGui {
         // CENTER panel for controls + parts panel
         JPanel centerPanel = new JPanel(new BorderLayout());
 
-        // control row – just the Add button now
+        // control row – Add + Set Active + Clear Active
         JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JButton addButton = new JButton("Add Part");
         addButton.addActionListener(e -> handleAddPart());
 
+        JButton setActiveButton = new JButton("Set Active");
+        setActiveButton.addActionListener(e -> handleSetActiveFromSelection());
+
+        JButton clearActiveButton = new JButton("Clear Active");
+        clearActiveButton.addActionListener(e -> handleClearActiveFromSelection());
+
         controls.add(addButton);
+        controls.add(setActiveButton);
+        controls.add(clearActiveButton);
 
         centerPanel.add(controls, BorderLayout.NORTH);
 
@@ -137,6 +147,19 @@ public class AutoLinkGui {
         centerPanel.add(partsPanel, BorderLayout.CENTER);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
+
+        // BOTTOM: Active build summary
+        activeSummaryArea = new JTextArea(8, 50);
+        activeSummaryArea.setEditable(false);
+        activeSummaryArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+
+        JScrollPane activeScroll = new JScrollPane(activeSummaryArea);
+
+        JPanel activePanel = new JPanel(new BorderLayout());
+        activePanel.setBorder(BorderFactory.createTitledBorder("Current Active Build"));
+        activePanel.add(activeScroll, BorderLayout.CENTER);
+
+        mainPanel.add(activePanel, BorderLayout.SOUTH);
 
         frame.add(mainPanel, BorderLayout.CENTER);
     }
@@ -228,6 +251,7 @@ public class AutoLinkGui {
             BuildData data = jsonReader.read();
             build = data.getBuild();
             refreshPartsList();
+            refreshActiveBuildSummary();
 
             JOptionPane.showMessageDialog(
                     frame,
@@ -286,5 +310,123 @@ public class AutoLinkGui {
             frame.dispose();
         }
     }
+
+    // REQUIRES: partsPanel != null
+    // EFFECTS:  sets the selected part as active for its category in the Build
+    //           and refreshes the active build summary.
+    private void handleSetActiveFromSelection() {
+        Part selected = partsPanel.getSelectedPart();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Please select a part in the list first.",
+                    "No Selection",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+
+        // category key used by Build (e.g., "wheel", "tire", etc.)
+        String categoryKey = selected.getClass().getSimpleName().toLowerCase();
+
+        try {
+            boolean ok = build.replaceActivePart(categoryKey, selected.getName());
+            if (!ok) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Could not set active part (unknown category or part not found).",
+                        "Set Active",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            } else {
+                refreshActiveBuildSummary();
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    e.getMessage(),
+                    "Error Setting Active Part",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    // REQUIRES: partsPanel != null
+    // EFFECTS:  clears the active selection for the selected part's category, if any.
+    private void handleClearActiveFromSelection() {
+        Part selected = partsPanel.getSelectedPart();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    "Please select a part whose category you want to clear.",
+                    "No Selection",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+
+        String categoryKey = selected.getClass().getSimpleName().toLowerCase();
+
+        try {
+            boolean ok = build.clearActive(categoryKey);
+            if (!ok) {
+                JOptionPane.showMessageDialog(
+                        frame,
+                        "Unknown category: " + categoryKey,
+                        "Clear Active",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            } else {
+                refreshActiveBuildSummary();
+            }
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(
+                    frame,
+                    e.getMessage(),
+                    "Error Clearing Active Part",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    // EFFECTS: rebuilds the multi-line active build summary and shows it
+    //          in activeSummaryArea.
+    private void refreshActiveBuildSummary() {
+        if (activeSummaryArea == null) {
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Current Active Build\n");
+        sb.append("---------------------\n");
+
+        appendActiveLine(sb, "Wheel", "wheel");
+        appendActiveLine(sb, "Tire", "tire");
+        appendActiveLine(sb, "Suspension", "suspension");
+        appendActiveLine(sb, "Exhaust", "exhaust");
+        appendActiveLine(sb, "Engine", "engine");
+        appendActiveLine(sb, "Transmission", "transmission");
+        appendActiveLine(sb, "Bumper", "bumper");
+        appendActiveLine(sb, "SideSkirts", "sideskirts");
+        appendActiveLine(sb, "Diffuser", "diffuser");
+        appendActiveLine(sb, "Spoiler", "spoiler");
+        appendActiveLine(sb, "Lights", "lights");
+
+        sb.append("\n---------------------\n");
+        sb.append("Estimated total cost: ").append(build.totalCost());
+
+        activeSummaryArea.setText(sb.toString());
+        activeSummaryArea.setCaretPosition(0);
+    }
+
+    //helper
+    private void appendActiveLine(StringBuilder sb, String label, String key) {
+        Part p = build.getActive(key);
+        String name = (p == null) ? "-" : p.getName();
+        String cost = (p == null) ? "-" : String.valueOf(p.getCost());
+        sb.append(String.format("%-12s: %s (cost %s)%n", label, name, cost));
+    }
+
+
 
 }
