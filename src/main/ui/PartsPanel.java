@@ -42,7 +42,8 @@ public class PartsPanel extends JPanel {
     //           Diffuser, Spoiler, Lights), and lays out the filter controls
     //           above the scrollable parts list.
     public PartsPanel() {
-        // TODO: initialize fields, build UI, and set layout
+        currentParts = new ArrayList<>();
+        buildUi();
     }
 
     // REQUIRES: categories is non-null and contains at least "All"
@@ -52,7 +53,13 @@ public class PartsPanel extends JPanel {
     //           the parent GUI to customize or re-initialize the available
     //           filter options if needed.
     private void setFilterCategories(List<String> categories) {
-        // TODO: clear combo box and add each category
+        filterComboBox.removeAllItems();
+        for (String c : categories) {
+            filterComboBox.addItem(c);
+        }
+        if (filterComboBox.getItemCount() > 0) {
+            filterComboBox.setSelectedIndex(0);
+        }
     }
 
     // REQUIRES: currentParts != null (may be empty); partsListModel != null
@@ -62,7 +69,10 @@ public class PartsPanel extends JPanel {
     //           category filter. Each entry includes at least the part name,
     //           category (simple class name), and cost.
     private void refreshAllPartsInList() {
-        // TODO: repopulate list model from currentParts without filtering
+        partsListModel.clear();
+        for (Part p : currentParts) {
+            partsListModel.addElement(formatPartForDisplay(p));
+        }
     }
 
     // REQUIRES: parts != null; parts may be empty
@@ -73,7 +83,8 @@ public class PartsPanel extends JPanel {
     //           selected, all parts are shown; otherwise, only parts whose
     //           runtime category matches the selected category are displayed.
     public void refresh(List<Part> parts) {
-        // TODO: store copy of parts in currentParts and apply filter
+        currentParts = new ArrayList<>(parts);
+        applyFilterFromSelection();
     }
 
     // REQUIRES: currentParts != null; filterComboBox != null; partsListModel != null
@@ -84,7 +95,28 @@ public class PartsPanel extends JPanel {
     //           the selected category string. The list model is cleared and
     //           repopulated with the filtered entries.
     private void applyFilterFromSelection() {
-        // TODO: inspect combo box selection and update list model accordingly
+        if (partsListModel == null || currentParts == null) {
+            return;
+        }
+
+        String selected = (filterComboBox != null)
+                ? (String) filterComboBox.getSelectedItem()
+                : null;
+
+        partsListModel.clear();
+
+        if (selected == null || "All".equals(selected)) {
+            for (Part p : currentParts) {
+                partsListModel.addElement(formatPartForDisplay(p));
+            }
+        } else {
+            for (Part p : currentParts) {
+                String category = p.getClass().getSimpleName();
+                if (category.equals(selected)) {
+                    partsListModel.addElement(formatPartForDisplay(p));
+                }
+            }
+        }
     }
 
     // REQUIRES: this has been constructed; partsListModel, partsList,
@@ -96,17 +128,50 @@ public class PartsPanel extends JPanel {
     //           appropriate layout with filter controls above a scroll pane
     //           containing the parts list.
     private void buildUi() {
-        // TODO: create components, wire listeners, configure layout, and add to panel
+        setLayout(new BorderLayout());
+
+        partsListModel = new DefaultListModel<>();
+        partsList = new JList<>(partsListModel);
+
+        filterComboBox = new JComboBox<>();
+        filterButton = new JButton("Apply Filter");
+
+        // set up categories
+        List<String> categories = new ArrayList<>();
+        categories.add("All");
+        categories.add("Wheel");
+        categories.add("Tire");
+        categories.add("Suspension");
+        categories.add("Exhaust");
+        categories.add("Engine");
+        categories.add("Transmission");
+        categories.add("Bumper");
+        categories.add("SideSkirts");
+        categories.add("Diffuser");
+        categories.add("Spoiler");
+        categories.add("Lights");
+        setFilterCategories(categories);
+
+        filterButton.addActionListener(e -> applyFilterFromSelection());
+
+        JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        controls.add(new JLabel("Filter:"));
+        controls.add(filterComboBox);
+        controls.add(filterButton);
+
+        JScrollPane scrollPane = new JScrollPane(partsList);
+
+        add(controls, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
+
     }
 
     // REQUIRES: part != null
     // MODIFIES: nothing
     // EFFECTS:  returns a human-readable string representation of the given
-    //           part for display in the list. The string includes the part
-    //           name, category (simple class name), and cost in CAD (whole
-    //           dollars). The exact formatting is up to the implementation.
+    //           part for display in the list.
     private String formatPartForDisplay(Part part) {
-        // TODO: return formatted string; for now, return placeholder
-        return "";
+        String category = part.getClass().getSimpleName();
+        return part.getName() + " (" + category + ") - $" + part.getCost();
     }
 }

@@ -34,10 +34,9 @@ public class AutoLinkGui {
 
     // Swing components
     private JFrame frame;
-    private DefaultListModel<String> partsListModel;
-    private JList<String> partsList;
-    private JComboBox<String> filterComboBox;
     private JLabel logoLabel;
+    private PartsPanel partsPanel;
+
 
     // REQUIRES: Swing must be initialized on the EDT if called from another GUI context.
     // MODIFIES: this
@@ -52,13 +51,8 @@ public class AutoLinkGui {
 
         // initialize Swing components
         frame = new JFrame("AutoLink");
-        partsListModel = new DefaultListModel<>();
-        partsList = new JList<>(partsListModel);
-        filterComboBox = new JComboBox<>(new String[]{
-                "All", "Wheel", "Tire", "Suspension", "Exhaust", "Engine",
-                "Transmission", "Bumper", "SideSkirts", "Diffuser", "Spoiler", "Lights"
-        });
         logoLabel = new JLabel();
+        partsPanel = new PartsPanel();
 
         // build the frame + UI
         initFrame();
@@ -118,7 +112,7 @@ public class AutoLinkGui {
     //           - controls above the parts list for adding and filtering parts.
     //           Adds this content panel to the frame.
     private void initMainPanel() {
-       JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
         // TOP: logo image
         loadLogoImage();  // try to load image
@@ -126,28 +120,21 @@ public class AutoLinkGui {
         topLogo.setHorizontalAlignment(SwingConstants.CENTER);
         mainPanel.add(topLogo, BorderLayout.NORTH);
 
-        // CENTER panel for controls + parts list
+        // CENTER panel for controls + parts panel
         JPanel centerPanel = new JPanel(new BorderLayout());
 
-        // control row
+        // control row – just the Add button now
         JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JButton addButton = new JButton("Add Part");
         addButton.addActionListener(e -> handleAddPart());
 
-        JButton filterButton = new JButton("Apply Filter");
-        filterButton.addActionListener(e -> handleFilter());
-
-        controls.add(new JLabel("Filter:"));
-        controls.add(filterComboBox);
-        controls.add(filterButton);
         controls.add(addButton);
 
         centerPanel.add(controls, BorderLayout.NORTH);
 
-        // parts list scroll panel
-        JScrollPane scrollPane = new JScrollPane(partsList);
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        // PartsPanel (handles filter + list)
+        centerPanel.add(partsPanel, BorderLayout.CENTER);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
@@ -160,12 +147,8 @@ public class AutoLinkGui {
     //           of all parts currently in the build's inventory. Each list entry
     //           includes at least the part name, category, and cost.
     private void refreshPartsList() {
-        partsListModel.clear();
-
         List<Part> parts = build.listAllParts();
-        for (Part p : parts) {
-            partsListModel.addElement(formatPartForDisplay(p));
-        }
+        partsPanel.refresh(parts);
     }
 
     // REQUIRES: build != null
@@ -204,31 +187,6 @@ public class AutoLinkGui {
         }
     }
 
-    // REQUIRES: build != null, filterComboBox != null, partsListModel != null
-    // MODIFIES: this, partsListModel
-    // EFFECTS:  reads the selected category from the filter combo box.
-    //           If "All" is selected, displays all parts in the list.
-    //           Otherwise, displays only parts whose runtime category
-    //           (e.g., Wheel, Tire, etc.) matches the selected category.
-    private void handleFilter() {
-        String selected = (String) filterComboBox.getSelectedItem();
-        partsListModel.clear();
-
-        List<Part> parts = build.listAllParts();
-
-        if (selected == null || "All".equals(selected)) {
-            for (Part p : parts) {
-                partsListModel.addElement(formatPartForDisplay(p));
-            }
-        } else {
-            for (Part p : parts) {
-                String category = p.getClass().getSimpleName();
-                if (category.equals(selected)) {
-                    partsListModel.addElement(formatPartForDisplay(p));
-                }
-            }
-        }
-    }
 
     // REQUIRES: jsonWriter != null
     // MODIFIES: this, file system at JSON_STORE
@@ -327,15 +285,6 @@ public class AutoLinkGui {
         if (choice == JOptionPane.YES_OPTION) {
             frame.dispose();
         }
-    }
-
-    // REQUIRES: p != null
-    // MODIFIES: nothing
-    // EFFECTS:  returns a simple string representation of the part including
-    //           its name, category, and cost in CAD.
-    private String formatPartForDisplay(Part p) {
-        String category = p.getClass().getSimpleName();
-        return p.getName() + " (" + category + ") - $" + p.getCost();
     }
 
 }
