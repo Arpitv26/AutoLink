@@ -165,7 +165,7 @@ public class AutoLinkGui {
     
     //helper
     private JPanel buildActivePanel() {
-        activeSummaryArea = new JTextArea(8, 50);
+        activeSummaryArea = new JTextArea(16, 50);
         activeSummaryArea.setEditable(false);
         activeSummaryArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
@@ -283,14 +283,24 @@ public class AutoLinkGui {
     //           on logoLabel. If the image cannot be loaded, logoLabel is left
     //           with a simple text fallback.
     private void loadLogoImage() {
-        ImageIcon icon = new ImageIcon("./data/autolink_logo.png");
+        ImageIcon icon = new ImageIcon("./data/AutoLinkLogo.png");
 
-        if (icon.getIconWidth() == -1) {
+        if (icon.getIconWidth() <= 0 || icon.getIconHeight() <= 0) {
             logoLabel.setText("AutoLink");
             logoLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        } else {
-            logoLabel.setIcon(icon);
+            return;
         }
+
+        int targetHeight = 100;
+        double scale = (double) targetHeight / icon.getIconHeight();
+        int targetWidth = (int) (icon.getIconWidth() * scale);
+
+        Image scaledImage = icon.getImage()
+                .getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        logoLabel.setIcon(scaledIcon);
+        logoLabel.setText(null);
     }
 
     // REQUIRES: this object has been constructed and initFrame has been called.
