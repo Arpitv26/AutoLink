@@ -116,31 +116,44 @@ public class AutoLinkGui {
     private void initMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        addLogoToMainPanel(mainPanel);
+        // top: logo + controls stacked together
+        addLogoAndControls(mainPanel);
 
-        JPanel centerPanel = buildCenterPanel();
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
-
-        JPanel activePanel = buildActivePanel();
-        mainPanel.add(activePanel, BorderLayout.SOUTH);
+        // center: split pane with inventory (left) and active summary (right)
+        JSplitPane splitPane = buildSplitPane();
+        mainPanel.add(splitPane, BorderLayout.CENTER);
 
         frame.add(mainPanel, BorderLayout.CENTER);
     }
 
     //helper
-    private void addLogoToMainPanel(JPanel mainPanel) {
-        loadLogoImage();
-        JLabel topLogo = logoLabel;
-        topLogo.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(topLogo, BorderLayout.NORTH);
+    private JSplitPane buildSplitPane() {
+        // Left side = inventory only
+        JPanel leftPanel = new JPanel(new BorderLayout());
+        leftPanel.add(partsPanel, BorderLayout.CENTER);
+
+        // Right side = active summary
+        JPanel activePanel = buildActivePanel();
+
+        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, activePanel);
+        split.setResizeWeight(0.7);      
+        split.setDividerLocation(0.7);    
+        split.setOneTouchExpandable(true);
+
+        return split;
     }
 
     //helper
-    private JPanel buildCenterPanel() {
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(buildControlsPanel(), BorderLayout.NORTH);
-        centerPanel.add(partsPanel, BorderLayout.CENTER);
-        return centerPanel;
+    private void addLogoAndControls(JPanel mainPanel) {
+        loadLogoImage();
+        JLabel topLogo = logoLabel;
+        topLogo.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(topLogo, BorderLayout.NORTH);
+        topPanel.add(buildControlsPanel(), BorderLayout.SOUTH);
+
+        mainPanel.add(topPanel, BorderLayout.NORTH);
     }
 
     //helper

@@ -3,39 +3,39 @@
         "name": "MyBuild",
         "parts": [
             {
-                "widthIn": 1,
-                "cost": 1,
-                "offsetMm": 1,
-                "diameterIn": 1,
-                "name": "a",
-                "category": "Wheel"
+                "cost": 21,
+                "horsepower": 241,
+                "name": "fewf",
+                "displacement": 121,
+                "category": "Engine",
+                "type": "2r21"
             },
             {
-                "cost": 1,
-                "rimDiameterIn": 1,
-                "aspectPercent": 1,
-                "name": "b",
-                "category": "Tire",
-                "widthMm": 1
+                "cost": 23,
+                "name": "fef2",
+                "category": "Transmission",
+                "type": "fewf",
+                "drive": "fewf",
+                "gears": 214
             }
         ]
     },
     "inventory": [
         {
-            "widthIn": 1,
-            "cost": 1,
-            "offsetMm": 1,
-            "diameterIn": 1,
-            "name": "a",
-            "category": "Wheel"
+            "cost": 21,
+            "horsepower": 241,
+            "name": "fewf",
+            "displacement": 121,
+            "category": "Engine",
+            "type": "2r21"
         },
         {
-            "cost": 1,
-            "rimDiameterIn": 1,
-            "aspectPercent": 1,
-            "name": "b",
-            "category": "Tire",
-            "widthMm": 1
+            "cost": 23,
+            "name": "fef2",
+            "category": "Transmission",
+            "type": "fewf",
+            "drive": "fewf",
+            "gears": 214
         }
     ]
 }
