@@ -43,3 +43,20 @@ Why have I chosen to do this specific project? I have always been a car enthusia
 - You can save the state of my application by using the menu bar at the top of the GUI window. Click **"File" → "Save"** to write your current build and its parts inventory to the JSON file used by AutoLink. After saving, you can close the application and later reload your work from the same file.
 
 - You can reload the state of my application by using the menu bar at the top of the GUI window. Click **"File" → "Load"** to read the previously saved build and parts inventory from the JSON file. The **"Parts in Current Build"** panel will update to show the loaded parts, and your active build state will be restored in the GUI.
+
+
+## Phase 4: Task 2
+
+Fri Nov 28 10:57:34 PST 2025
+Added part 'VGL SideSkirts' (SideSkirts) to inventory
+Fri Nov 28 10:58:07 PST 2025
+Added part 'NA 54' (Engine) to inventory
+Fri Nov 28 10:58:11 PST 2025
+Set active sideSkirts to 'VGL SideSkirts'
+Fri Nov 28 10:58:13 PST 2025
+Set active engine to 'NA 54'
+Fri Nov 28 10:58:23 PST 2025
+Cleared active sideskirts
+Fri Nov 28 10:58:26 PST 2025
+Cleared active engine
+
