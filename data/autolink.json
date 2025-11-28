@@ -1,41 +1,19 @@
 {
     "activeBuild": {
         "name": "MyBuild",
-        "parts": [
-            {
-                "cost": 21,
-                "horsepower": 241,
-                "name": "fewf",
-                "displacement": 121,
-                "category": "Engine",
-                "type": "2r21"
-            },
-            {
-                "cost": 23,
-                "name": "fef2",
-                "category": "Transmission",
-                "type": "fewf",
-                "drive": "fewf",
-                "gears": 214
-            }
-        ]
+        "parts": [{
+            "cost": 10,
+            "material": "al",
+            "name": "hello",
+            "category": "SideSkirts",
+            "brand": "al"
+        }]
     },
-    "inventory": [
-        {
-            "cost": 21,
-            "horsepower": 241,
-            "name": "fewf",
-            "displacement": 121,
-            "category": "Engine",
-            "type": "2r21"
-        },
-        {
-            "cost": 23,
-            "name": "fef2",
-            "category": "Transmission",
-            "type": "fewf",
-            "drive": "fewf",
-            "gears": 214
-        }
-    ]
+    "inventory": [{
+        "cost": 10,
+        "material": "al",
+        "name": "hello",
+        "category": "SideSkirts",
+        "brand": "al"
+    }]
 }

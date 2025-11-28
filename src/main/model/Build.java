@@ -71,6 +71,7 @@ public class Build {
         } else {
             inventory.add(p);
             nameIndex.add(p.getName());
+            logEvent("Added part '" + p.getName() + "' (" + p.getClass().getSimpleName() + ") to inventory");
             return true;
         }
     }
@@ -98,6 +99,7 @@ public class Build {
         inventory.remove(target);
         nameIndex.remove(name);
         clearIfActive(target);
+        logEvent("Removed part '" + name + "' from inventory");
         return true;
     }
 
@@ -149,6 +151,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Wheel) {
             activeWheel = (Wheel) p;
+            logEvent("Set active wheel to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -162,6 +165,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Tire) {
             activeTire = (Tire) p;
+            logEvent("Set active tire to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -175,6 +179,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Suspension) {
             activeSuspension = (Suspension) p;
+            logEvent("Set active suspension to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -188,6 +193,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Exhaust) {
             activeExhaust = (Exhaust) p;
+            logEvent("Set active exhaust to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -201,6 +207,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Engine) {
             activeEngine = (Engine) p;
+            logEvent("Set active engine to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -214,6 +221,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Transmission) {
             activeTransmission = (Transmission) p;
+            logEvent("Set active transmission to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -228,6 +236,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Bumper) {
             activeBumper = (Bumper) p;
+            logEvent("Set active bumper to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -241,6 +250,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof SideSkirts) {
             activeSideSkirts = (SideSkirts) p;
+            logEvent("Set active sideSkirts to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -254,6 +264,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Diffuser) {
             activeDiffuser = (Diffuser) p;
+            logEvent("Set active diffuser to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -267,6 +278,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Spoiler) {
             activeSpoiler = (Spoiler) p;
+            logEvent("Set active spoiler to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -280,6 +292,7 @@ public class Build {
         Part p = getPartByName(name);
         if (p instanceof Lights) {
             activeLights = (Lights) p;
+            logEvent("Set active lights to '" + p.getName() + "'");
             return true;
         }
         return false;
@@ -327,6 +340,7 @@ public class Build {
                 return false;
             }
         }
+        logEvent("Cleared active " + c);
         return true;
     }
 
@@ -480,6 +494,7 @@ public class Build {
             nameIndex.remove(activeWheel.getName()); 
         }
         activeWheel = w; 
+        logEvent("Set active wheel to '" + w.getName() + "'");
         return true;
     }
 
@@ -492,6 +507,7 @@ public class Build {
             nameIndex.remove(activeTire.getName()); 
         }
         activeTire = t; 
+        logEvent("Set active tire to '" + t.getName() + "'");
         return true;
     }
 
@@ -504,6 +520,7 @@ public class Build {
             nameIndex.remove(activeSuspension.getName()); 
         }
         activeSuspension = s; 
+        logEvent("Set active suspension to '" + s.getName() + "'");
         return true;
     }
 
@@ -516,6 +533,7 @@ public class Build {
             nameIndex.remove(activeExhaust.getName());
         }
         activeExhaust = e; 
+        logEvent("Set active exhaust to '" + e.getName() + "'");
         return true;
     }
 
@@ -528,6 +546,7 @@ public class Build {
             nameIndex.remove(activeEngine.getName());
         }
         activeEngine = e;
+        logEvent("Set active engine to '" + e.getName() + "'");
         return true;
     }
 
@@ -540,6 +559,7 @@ public class Build {
             nameIndex.remove(activeTransmission.getName());
         }
         activeTransmission = t;
+        logEvent("Set active transmission to '" + t.getName() + "'");
         return true;
     }
 
@@ -552,6 +572,7 @@ public class Build {
             nameIndex.remove(activeBumper.getName());
         }
         activeBumper = b; 
+        logEvent("Set active bumper to '" + b.getName() + "'");
         return true;
     }
 
@@ -564,6 +585,7 @@ public class Build {
             nameIndex.remove(activeSideSkirts.getName());
         }
         activeSideSkirts = s; 
+        logEvent("Set active sideSkirts to '" + s.getName() + "'");
         return true;
     }
 
@@ -576,6 +598,7 @@ public class Build {
             nameIndex.remove(activeDiffuser.getName());
         }
         activeDiffuser = d;
+        logEvent("Set active diffuser to '" + d.getName() + "'");
         return true;
     }
 
@@ -588,6 +611,7 @@ public class Build {
             nameIndex.remove(activeSpoiler.getName());
         }
         activeSpoiler = s;
+        logEvent("Set active spoiler to '" + s.getName() + "'");
         return true;
     }
 
@@ -600,6 +624,7 @@ public class Build {
             nameIndex.remove(activeLights.getName());
         }
         activeLights = l; 
+        logEvent("Set active lights to '" + l.getName() + "'");
         return true;
     }
 
@@ -608,6 +633,12 @@ public class Build {
         return new ArrayList<>(inventory);
     }
 
+
+    // EFFECTS: logs an event with the given description
+    // Helper for event logging
+    private void logEvent(String description) {
+        EventLog.getInstance().logEvent(new Event(description));
+    }
 
 
 }

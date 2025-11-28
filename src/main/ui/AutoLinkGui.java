@@ -6,6 +6,10 @@ import model.Part;
 import persistence.BuildData;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import model.Event;
+import model.EventLog;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +62,6 @@ public class AutoLinkGui {
         // build the frame + UI
         initFrame();
 
-        // populate the list (build is empty at start, so this just clears)
         refreshPartsList();
         refreshActiveBuildSummary();
     }
@@ -69,14 +72,21 @@ public class AutoLinkGui {
     //           close operation, layout) and attaches the main content panel
     //           and menu bar to the frame.
     private void initFrame() {
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
 
-        initMenuBar();      // File → Load / Save / Quit
-        initMainPanel();    // logo + (controls + list)
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                handleQuit();
+            }
+        });
 
-        frame.setLocationRelativeTo(null); // center on screen
+        initMenuBar();  
+        initMainPanel();    
+
+        frame.setLocationRelativeTo(null);
     }
 
     // REQUIRES: frame != null
@@ -116,10 +126,9 @@ public class AutoLinkGui {
     private void initMainPanel() {
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        // top: logo + controls stacked together
+
         addLogoAndControls(mainPanel);
 
-        // center: split pane with inventory (left) and active summary (right)
         JSplitPane splitPane = buildSplitPane();
         mainPanel.add(splitPane, BorderLayout.CENTER);
 
@@ -128,7 +137,7 @@ public class AutoLinkGui {
 
     //helper
     private JSplitPane buildSplitPane() {
-        // Left side = inventory only
+
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.add(partsPanel, BorderLayout.CENTER);
 
@@ -337,6 +346,7 @@ public class AutoLinkGui {
         );
 
         if (choice == JOptionPane.YES_OPTION) {
+            printEventLog();
             frame.dispose();
         }
     }
@@ -434,6 +444,13 @@ public class AutoLinkGui {
         String name = (p == null) ? "-" : p.getName();
         String cost = (p == null) ? "-" : String.valueOf(p.getCost());
         sb.append(String.format("%-12s: %s (cost %s)%n", label, name, cost));
+    }
+
+    // EFFECTS: prints all logged events to the console
+    private void printEventLog() {
+        for (Event e : EventLog.getInstance()) {
+            System.out.println(e.toString());
+        }
     }
 
 
