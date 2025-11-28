@@ -60,3 +60,11 @@ Cleared active sideskirts
 Fri Nov 28 10:58:26 PST 2025
 Cleared active engine
 
+## Phase 4: Task 3
+
+Looking at the final UML design, one clear area that could benefit from refactoring is the Build class. Right now, Build is doing a lot of heavy lifting. It stores the full inventory of Part objects and manages every active selection, one field at a time (activeWheel, activeTire, activeSuspension, etc.). Because each part category uses its own explicit field and its own dedicated setter method, the class ends up with a long list of very similar methods like setActiveWheel, setActiveTire, setActiveSuspension, and an equally long group of assignX helpers. This works, but it does create duplication and makes the class feel more complicated than it needs to be.
+
+If I had more time, I would restructure this by introducing a more generic, centralized way to track active parts. For example, instead of storing each active part in a separate field, I could use a Map<String, Part> or even a Map<PartCategory, Part> if an enum was introduced. That way, most of the repetitive “set active” logic could be replaced with one or two general purpose methods. Adding a new part category would also become much easier rather than writing several new methods and fields, the system would naturally support it as long as the category key existed in the map.
+
+This kind of refactoring wouldn’t change the program’s features, but it would make the Build class more flexible, shorter, and easier to maintain. In the long run, cleaning up this duplication would reduce the risk of inconsistencies and help keep the model layer scalable as the application grows or new part types are introduced.
+
