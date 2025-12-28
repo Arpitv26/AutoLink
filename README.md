@@ -47,7 +47,7 @@ Why have I chosen to do this specific project? I have always been a car enthusia
 
 
 
-## UMl Design and insights
+## UML Design and insights
 
 Looking at the final UML design, one clear area that could benefit from refactoring is the Build class. Right now, Build is doing a lot of heavy lifting. It stores the full inventory of Part objects and manages every active selection, one field at a time (activeWheel, activeTire, activeSuspension, etc.). Because each part category uses its own explicit field and its own dedicated setter method, the class ends up with a long list of very similar methods like setActiveWheel, setActiveTire, setActiveSuspension, and an equally long group of assignX helpers. This works, but it does create duplication and makes the class feel more complicated than it needs to be.
 
