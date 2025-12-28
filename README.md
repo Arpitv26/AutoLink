@@ -46,22 +46,8 @@ Why have I chosen to do this specific project? I have always been a car enthusia
 - You can reload the state of my application by using the menu bar at the top of the GUI window. Click **"File" → "Load"** to read the previously saved build and parts inventory from the JSON file. The **"Parts in Current Build"** panel will update to show the loaded parts, and your active build state will be restored in the GUI.
 
 
-## Phase 4: Task 2
 
-Fri Nov 28 10:57:34 PST 2025
-Added part 'VGL SideSkirts' (SideSkirts) to inventory
-Fri Nov 28 10:58:07 PST 2025
-Added part 'NA 54' (Engine) to inventory
-Fri Nov 28 10:58:11 PST 2025
-Set active sideSkirts to 'VGL SideSkirts'
-Fri Nov 28 10:58:13 PST 2025
-Set active engine to 'NA 54'
-Fri Nov 28 10:58:23 PST 2025
-Cleared active sideskirts
-Fri Nov 28 10:58:26 PST 2025
-Cleared active engine
-
-## Phase 4: Task 3
+## UMl Design and insights
 
 Looking at the final UML design, one clear area that could benefit from refactoring is the Build class. Right now, Build is doing a lot of heavy lifting. It stores the full inventory of Part objects and manages every active selection, one field at a time (activeWheel, activeTire, activeSuspension, etc.). Because each part category uses its own explicit field and its own dedicated setter method, the class ends up with a long list of very similar methods like setActiveWheel, setActiveTire, setActiveSuspension, and an equally long group of assignX helpers. This works, but it does create duplication and makes the class feel more complicated than it needs to be.
 
