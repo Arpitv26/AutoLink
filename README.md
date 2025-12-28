@@ -1,6 +1,7 @@
 # **AutoLink**
 
 ### *Connecting car parts, builds, and ideas*
+"Originally developed as part of UBC CPSC 210 Term Project (Fall 2025). Full commit history preserved."
 
 **AutoLink** is an application designed to help car enthusiasts plan and organize car modifications. The user can build by adding parts such as wheels, tires, suspension, and exhaust systems, and then run a fitment check to see if the components are compatible with each other. The checker will verify wheel and tire size, warn of rolling diameter differences, and flag up potential clearance issues. The app will also provide a build summary, parts list, and total build costs from the user’s inputs. This software is intended for hobbyists, students, and auto enthusiasts who want to try out auto modifications offline and in a risk-free environment. It will be useful to those who want to find out how their chosen components interact with each other and function separately before really modifying their vehicles in real life, which can save them time and money. Another use of this app is to just use it as a summary list alongside your journey of modifying a car. It can be a place where you can input all the work you have done in an organized and easy to follow format. It can be used by users to refine their skills and to test out new ways to modify their cars that they might have otherwise missed. 
 
